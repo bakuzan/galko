@@ -4,10 +4,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Galko</title>
-    <!-- <script src="webcomponentsjs/custom-elements-es5-adapter.js"></script>
-    <script src="webcomponentsjs/webcomponents-loader.js"></script> -->
+    <style>
+      :root {
+        --font-size: 16px;
+        --font-family: 'Lucida Console', 'Courier New', monospace;
+
+        --card-width: 103px;
+        --card-height: 160px;
+
+        --card-shadow: #999900;
+        --card-colour: #bbb;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body,
+      button {
+        font-family: var(--font-family);
+        font-size: var(--font-size);
+      }
+    </style>
   </head>
   <body>
-    <hello-world></hello-world>
+    <glk-app></glk-app>
   </body>
 </html>
