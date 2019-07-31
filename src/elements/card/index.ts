@@ -11,6 +11,9 @@ class Card extends LitElement {
   @property({ type: Boolean })
   public isFaceUp = false;
 
+  @property({ type: Boolean })
+  public isHidden = false;
+
   @property({ type: String })
   public cardId = '';
 
@@ -27,6 +30,10 @@ class Card extends LitElement {
   public height = 160;
 
   public render() {
+    if (this.isHidden) {
+      return html``;
+    }
+
     return html`
       <button
         type="button"

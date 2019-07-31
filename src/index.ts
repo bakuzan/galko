@@ -15,8 +15,14 @@ class App extends LitElement {
     `;
   }
 
+  @property({ type: Number })
+  private timer: number = 0;
+
+  @property({ type: Boolean })
+  private hasMatch = false;
+
   @property({ type: Array })
-  private pairs: Card[] = [];
+  private pairs: string[] = [];
 
   @property({ type: Array })
   private choices: string[] = [];
@@ -37,6 +43,8 @@ class App extends LitElement {
       <glk-card-grid
         .cards=${this.cards}
         .selected=${this.choices}
+        .removed=${this.pairs}
+        ?hasMatch=${this.hasMatch}
         @flipped="${this.onCardFlip}"
       >
       </glk-card-grid>
@@ -45,15 +53,16 @@ class App extends LitElement {
 
   private onCardFlip(event: CustomEvent<CardFlip>) {
     const data = event.detail;
-    const isFaceUp = this.choices.includes(data.cardId);
-
-    if (isFaceUp) {
+    const turnFaceUp = !this.choices.includes(data.cardId);
+    console.log(this.choices, data.cardId);
+    if (turnFaceUp) {
       this.choices = [...this.choices, data.cardId];
-    } else {
-      this.choices = this.choices.filter((x) => x === data.cardId);
+      this.checkCards();
     }
 
-    this.checkCards();
+    // else {
+    //   this.choices = this.choices.filter((x) => x !== data.cardId);
+    // }
   }
 
   private checkCards() {
@@ -69,18 +78,17 @@ class App extends LitElement {
     });
 
     const isMatch = new Set(characterIds).size === 1;
-    if (isMatch) {
-      this.pairs = [
-        ...this.pairs,
-        ...this.cards.filter((x) => this.choices.some((c) => c === x.id))
-      ];
+    this.hasMatch = isMatch;
 
-      this.cards = this.cards.filter(
-        (x) => !this.choices.some((co) => co === x.id)
-      );
-    }
+    clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => {
+      if (isMatch) {
+        this.pairs = [...this.pairs, ...this.choices];
+      }
 
-    // Reset choices
-    this.choices = [];
+      // Reset choices
+      this.choices = [];
+      this.hasMatch = false;
+    }, 1500);
   }
 }
