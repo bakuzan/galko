@@ -14,6 +14,12 @@ class CardGrid extends LitElement {
         grid-gap: 16px;
         padding: 16px;
         width: calc(100% - 32px);
+
+        /* Centering */
+        justify-content: center;
+        min-width: 400px;
+        max-width: 80%;
+        margin: 0 auto;
       }
     `;
   }
@@ -31,8 +37,8 @@ class CardGrid extends LitElement {
   private hasMatch = false;
 
   public render() {
-    console.log('GRID', this.cards, this.selected);
     const hasPair = this.selected.length === 2;
+
     return html`
       ${baseAnimationStyle}
       ${hasPair
@@ -43,10 +49,13 @@ class CardGrid extends LitElement {
                 /* Bad match specific */
                 content: '❌︎';
                 color: var(--danger-colour);
+                left: -5px;
               }
               .glk-card--matched::before {
                 content: '✓︎';
                 color: var(--success-colour);
+                left: 0;
+                font-size: 8.5rem;
               }
             </style>
           `

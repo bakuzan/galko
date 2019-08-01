@@ -37,7 +37,7 @@ export default html`
       right: 0;
       bottom: 0;
       z-index: 1;
-      font-size: 8rem;
+      font-size: 7rem;
       opacity: 0;
       animation-name: heartBeat;
       animation-duration: 1.3s;
