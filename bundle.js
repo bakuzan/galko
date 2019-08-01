@@ -149,6 +149,10 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
  * http://polymer.github.io/PATENTS.txt
  */
 (window.litElementVersions||(window.litElementVersions=[])).push("2.2.1");const ht=t=>t.flat?t.flat(1/0):function t(e,i=[]){for(let s=0,r=e.length;s<r;s++){const r=e[s];Array.isArray(r)?t(r,i):i.push(r)}return i}(t);class pt extends it{static finalize(){super.finalize.call(this),this._styles=this.hasOwnProperty(JSCompiler_renameProperty("styles",this))?this._getUniqueStyles():this._styles||[]}static _getUniqueStyles(){const t=this.styles,e=[];if(Array.isArray(t)){ht(t).reduceRight((t,e)=>(t.add(e),t),new Set).forEach(t=>e.unshift(t))}else t&&e.push(t);return e}initialize(){super.initialize(),this.renderRoot=this.createRenderRoot(),window.ShadowRoot&&this.renderRoot instanceof window.ShadowRoot&&this.adoptStyles()}createRenderRoot(){return this.attachShadow({mode:"open"})}adoptStyles(){const t=this.constructor._styles;0!==t.length&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow?at?this.renderRoot.adoptedStyleSheets=t.map(t=>t.styleSheet):this._needsShimAdoptedStyleSheets=!0:window.ShadyCSS.ScopingShim.prepareAdoptedCssText(t.map(t=>t.cssText),this.localName))}connectedCallback(){super.connectedCallback(),this.hasUpdated&&void 0!==window.ShadyCSS&&window.ShadyCSS.styleElement(this)}update(t){super.update(t);const e=this.render();e instanceof v&&this.constructor.render(e,this.renderRoot,{scopeName:this.localName,eventContext:this}),this._needsShimAdoptedStyleSheets&&(this._needsShimAdoptedStyleSheets=!1,this.constructor._styles.forEach(t=>{const e=document.createElement("style");e.textContent=t.cssText,this.renderRoot.appendChild(e)}))}render(){}}pt.finalized=!0,pt.render=(t,e,i)=>{if(!i||"object"!=typeof i||!i.scopeName)throw new Error("The `scopeName` option is required.");const s=i.scopeName,r=$.has(e),n=F&&11===e.nodeType&&!!e.host,a=n&&!q.has(s),c=a?document.createDocumentFragment():e;if(((t,e,i)=>{let s=$.get(e);void 0===s&&(o(e,e.firstChild),$.set(e,s=new k(Object.assign({templateFactory:M},i))),s.appendInto(e)),s.setValue(t),s.commit()})(t,c,Object.assign({templateFactory:G(s)},i)),a){const t=$.get(c);$.delete(c);const i=t.value instanceof _?t.value.template:void 0;L(s,c,i),o(e,e.firstChild),e.appendChild(c),$.set(e,t)}!r&&n&&window.ShadyCSS.styleElement(e.host)};var ut=function(t,e,i,s){var r,n=arguments.length,o=n<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)o=Reflect.decorate(t,e,i,s);else for(var a=t.length-1;a>=0;a--)(r=t[a])&&(o=(n<3?r(o):n>3?r(e,i,o):r(e,i))||o);return n>3&&o&&Object.defineProperty(e,i,o),o};let mt=class extends pt{constructor(){super(...arguments),this.primary=!1,this.disabled=!1}static get styles(){return dt`
+      :host[disabled] {
+        pointer-events: none;
+      }
+
       .button {
         font-family: var(--font-family);
         font-size: var(--font-size);
@@ -185,7 +189,7 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
       >
         <slot></slot>
       </button>
-    `}handleClick(){const t=new CustomEvent("click",{bubbles:!0,composed:!0,detail:null});this.dispatchEvent(t)}};ut([ot({type:Boolean})],mt.prototype,"primary",void 0),ut([ot({type:Boolean})],mt.prototype,"disabled",void 0),mt=ut([st("glk-button")],mt);var gt=dt`
+    `}handleClick(){const t=new CustomEvent("press",{bubbles:!0,composed:!0,detail:null});this.dispatchEvent(t)}};ut([ot({type:Boolean})],mt.prototype,"primary",void 0),ut([ot({type:Boolean})],mt.prototype,"disabled",void 0),mt=ut([st("glk-button")],mt);var gt=dt`
   /* Shared sizing */
   :host,
   .card,
@@ -372,7 +376,7 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
     @media (max-width: ${767}) {
       ${t}
     }
-  `};var jt=function(t,e,i,s){var r,n=arguments.length,o=n<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)o=Reflect.decorate(t,e,i,s);else for(var a=t.length-1;a>=0;a--)(r=t[a])&&(o=(n<3?r(o):n>3?r(e,i,o):r(e,i))||o);return n>3&&o&&Object.defineProperty(e,i,o),o};let At=class extends pt{constructor(){super(...arguments),this.timer=0,this.inGame=!1,this.timeElapsed="00:00",this.gameSummary=[],this.hasMatch=!1,this.pairs=[],this.choices=[],this.cards=[],this.unsubTimer=()=>""}static get styles(){return dt`
+  `};var jt=function(t,e,i,s){var r,n=arguments.length,o=n<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)o=Reflect.decorate(t,e,i,s);else for(var a=t.length-1;a>=0;a--)(r=t[a])&&(o=(n<3?r(o):n>3?r(e,i,o):r(e,i))||o);return n>3&&o&&Object.defineProperty(e,i,o),o};let At=class extends pt{constructor(){super(...arguments),this.timer=0,this.inGame=!1,this.timeElapsed="00m 00s",this.gameSummary=[],this.hasMatch=!1,this.pairs=[],this.choices=[],this.cards=[],this.unsubTimer=()=>""}static get styles(){return dt`
       :host,
       main {
         display: flex;
@@ -416,10 +420,13 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
                 <div>Time: ${this.timeElapsed}</div>
               `:""}
           <div class="flex-spacer"></div>
-          <glk-button primary ?disabled=${this.inGame} @click="${this.newGame}"
+          <glk-button primary ?disabled=${this.inGame} @press="${this.newGame}"
             >New game</glk-button
           >
-          <glk-button primary ?disabled=${!this.inGame} @click="${this.endGame}"
+          <glk-button
+            primary
+            ?disabled=${!this.inGame}
+            @press="${()=>this.endGame(!1)}"
             >Quit game</glk-button
           >
           <div class="flex-spacer"></div>
@@ -439,4 +446,4 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
         >
         </glk-card-grid>
       </main>
-    `}newGame(){this.gameSummary=[],this.choices=[],this.cards=function(){const t=wt(xt).slice(0,3);return wt([...t,...t]).map(kt)}(),this.inGame=!0,this.unsubTimer=Ct.subscribe(t=>this.timeElapsed=t)}endGame(t=!1){const e=this.unsubTimer(),i=this.pairs.length;this.inGame=!1,this.pairs=[],this.choices=this.cards.map(t=>t.id),console.groupCollapsed(`Game ${t?"complete":"ended"}`),console.log("Pairs > ",i),console.log("Time > ",e),console.groupEnd(),this.gameSummary=[t?"You found all the pairs!":"Quitters always quit.",`${i} pairs found in ${e}`]}onCardFlip(t){if(2===this.choices.length)return;const e=t.detail;!this.choices.includes(e.cardId)&&(this.choices=[...this.choices,e.cardId],this.checkCards())}checkCards(){if(2!==this.choices.length)return;const t=this.choices.map(t=>{const e=this.cards.find(e=>e.id===t);if(e)return e.characterId}),e=1===new Set(t).size;this.hasMatch=e,clearTimeout(this.timer),this.timer=window.setTimeout(()=>{e&&(this.pairs=[...this.pairs,...this.choices]),this.choices=[],this.hasMatch=!1,this.checkGameState()},1500)}checkGameState(){this.cards.length===this.pairs.length&&0!==this.pairs.length&&this.endGame(!0)}};jt([ot({type:Number})],At.prototype,"timer",void 0),jt([ot({type:Boolean})],At.prototype,"inGame",void 0),jt([ot({type:String})],At.prototype,"timeElapsed",void 0),jt([ot({type:Array})],At.prototype,"gameSummary",void 0),jt([ot({type:Boolean})],At.prototype,"hasMatch",void 0),jt([ot({type:Array})],At.prototype,"pairs",void 0),jt([ot({type:Array})],At.prototype,"choices",void 0),jt([ot({type:Array})],At.prototype,"cards",void 0),jt([ot({type:Function})],At.prototype,"unsubTimer",void 0),At=jt([st("glk-app")],At)}]);
+    `}newGame(){this.gameSummary=[],this.choices=[],this.cards=function(){const t=wt(xt).slice(0,3);return wt([...t,...t]).map(kt)}(),this.inGame=!0,this.unsubTimer=Ct.subscribe(t=>this.timeElapsed=t)}endGame(t=!1){const e=this.unsubTimer(),i=this.pairs.length;this.inGame=!1,this.pairs=[],this.choices=this.cards.map(t=>t.id),this.gameSummary=[t?"You found all the pairs!":"Quitters always quit.",`${i} pairs found in ${e}`]}onCardFlip(t){if(2===this.choices.length)return;const e=t.detail;!this.choices.includes(e.cardId)&&(this.choices=[...this.choices,e.cardId],this.checkCards())}checkCards(){if(2!==this.choices.length)return;const t=this.choices.map(t=>{const e=this.cards.find(e=>e.id===t);if(e)return e.characterId}),e=1===new Set(t).size;this.hasMatch=e,clearTimeout(this.timer),this.timer=window.setTimeout(()=>{e&&(this.pairs=[...this.pairs,...this.choices]),this.choices=[],this.hasMatch=!1,this.checkGameState()},1500)}checkGameState(){this.cards.length===this.pairs.length&&0!==this.pairs.length&&this.endGame(!0)}};jt([ot({type:Number})],At.prototype,"timer",void 0),jt([ot({type:Boolean})],At.prototype,"inGame",void 0),jt([ot({type:String})],At.prototype,"timeElapsed",void 0),jt([ot({type:Array})],At.prototype,"gameSummary",void 0),jt([ot({type:Boolean})],At.prototype,"hasMatch",void 0),jt([ot({type:Array})],At.prototype,"pairs",void 0),jt([ot({type:Array})],At.prototype,"choices",void 0),jt([ot({type:Array})],At.prototype,"cards",void 0),jt([ot({type:Function})],At.prototype,"unsubTimer",void 0),At=jt([st("glk-app")],At)}]);
