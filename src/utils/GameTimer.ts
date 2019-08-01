@@ -5,7 +5,7 @@ class GameTimer {
     const mins = Math.floor(this.gameTime / 60);
     const secs = this.gameTime % 60;
 
-    return `${pad(mins, 2)}:${pad(secs, 2)}`;
+    return `${pad(mins, 2)}m ${pad(secs, 2)}s`;
   }
 
   get isPaused() {

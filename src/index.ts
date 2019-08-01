@@ -6,12 +6,14 @@ import getData from './characters';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
 import GameTimer from './utils/GameTimer';
+import { mediaOn, Size } from './utils/mediaOn';
 
 @customElement('glk-app')
 class App extends LitElement {
   static get styles() {
     return css`
-      :host {
+      :host,
+      main {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -24,6 +26,27 @@ class App extends LitElement {
         padding: 10px 5px;
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
       }
+
+      .summary {
+        display: flex;
+        justify-content: center;
+        background-color: var(--secondary-colour);
+        color: var(--secondary-contrast);
+        padding: 5px;
+        margin: 10px 5px;
+        white-space: pre;
+      }
+
+      ${mediaOn(
+        Size.XS,
+        css`
+          .action-bar {
+            flex-direction: column;
+          }
+        `
+      )}
+
+      /* Helpers */
       .flex-spacer {
         display: flex;
         flex: 1;
@@ -40,6 +63,9 @@ class App extends LitElement {
   @property({ type: String })
   private timeElapsed = '00:00';
 
+  @property({ type: Array })
+  private gameSummary: string[] = [];
+
   @property({ type: Boolean })
   private hasMatch = false;
 
@@ -53,9 +79,9 @@ class App extends LitElement {
   private cards: Card[] = [];
 
   public render() {
-    console.log('App', this.cards, this.choices);
     const pLen = this.pairs.length;
     const pairCount = pLen ? pLen / 2 : 0;
+    const hasSummary = this.gameSummary.length > 0;
 
     return html`
       <main>
@@ -79,6 +105,11 @@ class App extends LitElement {
               `
             : ''}
         </div>
+        ${hasSummary
+          ? html`
+              <div class="summary">${this.gameSummary.join('\r\n')}</div>
+            `
+          : ''}
         <glk-card-grid
           .cards=${this.cards}
           .selected=${this.choices}
@@ -95,6 +126,8 @@ class App extends LitElement {
   private unsubTimer: () => string = () => '';
 
   private newGame() {
+    this.gameSummary = [];
+    this.choices = [];
     this.cards = getData();
     this.inGame = true;
     this.unsubTimer = GameTimer.subscribe((time) => (this.timeElapsed = time));
@@ -107,12 +140,17 @@ class App extends LitElement {
     this.inGame = false;
     this.pairs = [];
 
+    // Show all cards
+    this.choices = this.cards.map((x) => x.id);
+
     console.groupCollapsed(`Game ${success ? 'complete' : 'ended'}`);
     console.log('Pairs > ', pairs);
     console.log('Time > ', timeElapsed);
     console.groupEnd();
-    // TODO
-    // Display a summary.
+    this.gameSummary = [
+      success ? `You found all the pairs!` : 'Quitters always quit.',
+      `${pairs} pairs found in ${timeElapsed}`
+    ];
   }
 
   private onCardFlip(event: CustomEvent<CardFlip>) {

@@ -90,7 +90,7 @@ const addId = (x: Character): Card => ({
 });
 
 export default function getData(): Card[] {
-  const randomCharacters = shuffleArray(characters).slice(0, 13);
+  const randomCharacters = shuffleArray(characters).slice(0, 3); // TODO use larger deck
   const paired = [...randomCharacters, ...randomCharacters];
   return shuffleArray<Character>(paired).map(addId);
 }

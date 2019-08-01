@@ -34,7 +34,8 @@ module.exports = (env) => {
     },
     output: {
       filename: 'bundle.js',
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/'
     },
     plugins: [
       new CleanWebpackPlugin(),
@@ -46,7 +47,8 @@ module.exports = (env) => {
       //   ]),
       new HtmlWebpackPlugin({
         inject: 'head',
-        template: 'public/index.html'
+        template: 'public/index.html',
+        favicon: 'public/favicon.ico'
       })
     ]
   };
