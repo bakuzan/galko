@@ -61,7 +61,7 @@ class App extends LitElement {
   private inGame = false;
 
   @property({ type: String })
-  private timeElapsed = '00:00';
+  private timeElapsed = '00m 00s';
 
   @property({ type: Array })
   private gameSummary: string[] = [];
@@ -92,10 +92,13 @@ class App extends LitElement {
               `
             : ''}
           <div class="flex-spacer"></div>
-          <glk-button primary ?disabled=${this.inGame} @click="${this.newGame}"
+          <glk-button primary ?disabled=${this.inGame} @press="${this.newGame}"
             >New game</glk-button
           >
-          <glk-button primary ?disabled=${!this.inGame} @click="${this.endGame}"
+          <glk-button
+            primary
+            ?disabled=${!this.inGame}
+            @press="${() => this.endGame(false)}"
             >Quit game</glk-button
           >
           <div class="flex-spacer"></div>
@@ -142,11 +145,6 @@ class App extends LitElement {
 
     // Show all cards
     this.choices = this.cards.map((x) => x.id);
-
-    console.groupCollapsed(`Game ${success ? 'complete' : 'ended'}`);
-    console.log('Pairs > ', pairs);
-    console.log('Time > ', timeElapsed);
-    console.groupEnd();
     this.gameSummary = [
       success ? `You found all the pairs!` : 'Quitters always quit.',
       `${pairs} pairs found in ${timeElapsed}`

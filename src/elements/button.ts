@@ -4,6 +4,10 @@ import { css, customElement, html, LitElement, property } from 'lit-element';
 class Button extends LitElement {
   static get styles() {
     return css`
+      :host[disabled] {
+        pointer-events: none;
+      }
+
       .button {
         font-family: var(--font-family);
         font-size: var(--font-size);
@@ -58,7 +62,7 @@ class Button extends LitElement {
   }
 
   private handleClick() {
-    const event = new CustomEvent('click', {
+    const event = new CustomEvent('press', {
       bubbles: true,
       composed: true,
       detail: null
