@@ -3,10 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = (env) => {
+  const isDev = env.MODE === 'development';
+  const publicPath = isDev ? '/' : '/galko/';
+
   return {
     mode: env.MODE,
     entry: './src/index.ts',
-    devtool: env.MODE === 'development' ? 'inline-source-map' : 'none',
+    devtool: isDev ? 'inline-source-map' : 'none',
     devServer: {
       contentBase: './dist'
     },
@@ -22,9 +25,22 @@ module.exports = (env) => {
           use: {
             loader: 'html-loader',
             options: {
-              attrs: false
+              attrs: false,
+              minimize: !isDev
             }
           }
+        },
+        {
+          test: /\.(html)$/,
+          use: {
+            loader: 'string-replace-loader',
+            options: {
+              multiple: [
+                { search: '%PUBLIC_URL%', replace: publicPath, flags: 'g' }
+              ]
+            }
+          },
+          exclude: /node_modules/
         }
       ]
     },
@@ -34,7 +50,7 @@ module.exports = (env) => {
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
+      publicPath
     },
     plugins: [
       new CleanWebpackPlugin(),
