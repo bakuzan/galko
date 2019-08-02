@@ -31,6 +31,17 @@ class Button extends LitElement {
         background-color: var(--secondary-colour-hovered);
       }
 
+      .button--icon {
+        border-radius: 50%;
+        box-shadow: none;
+        font-size: 1.25rem;
+      }
+      .button--icon:hover {
+        background-color: initial;
+        box-shadow: 1px 1px 2px 0px var(--shadow-colour),
+          0px 0px 1px 0px var(--shadow-colour);
+      }
+
       .button:disabled {
         background-color: var(--disabled-colour);
         cursor: default;
@@ -38,20 +49,30 @@ class Button extends LitElement {
     `;
   }
 
+  @property({ type: String })
+  public type = 'button';
+
   @property({ type: Boolean })
   public primary = false;
+
+  @property({ type: Boolean })
+  public icon = false;
 
   @property({ type: Boolean })
   public disabled = false;
 
   public render() {
-    const btnClass = ['button', this.primary && 'button--primary']
+    const btnClass = [
+      'button',
+      this.primary && 'button--primary',
+      this.icon && 'button--icon'
+    ]
       .filter((x) => !!x)
       .join(' ');
 
     return html`
       <button
-        type="button"
+        type="${this.type}"
         class="${btnClass}"
         ?disabled=${this.disabled}
         @click="${this.handleClick}"

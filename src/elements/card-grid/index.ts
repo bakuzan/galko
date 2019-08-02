@@ -18,7 +18,7 @@ class CardGrid extends LitElement {
         /* Centering */
         justify-content: center;
         min-width: 400px;
-        max-width: 80%;
+        max-width: 95%;
         margin: auto;
       }
     `;

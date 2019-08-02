@@ -2,24 +2,29 @@ import { html } from 'lit-element';
 
 export default html`
   <style>
-    @keyframes heartBeat {
+    @keyframes growth {
       0% {
-        transform: scale(0.1);
+        transform: scale(0);
         opacity: 0;
       }
 
-      30% {
+      20% {
+        transform: scale(0.2);
+        opacity: 0.3;
+      }
+
+      40% {
         transform: scale(0.5);
-        opacity: 0.5;
+        opacity: 0.6;
       }
 
       60% {
-        transform: scale(1);
-        opacity: 1;
+        transform: scale(0.9);
+        opacity: 0.9;
       }
 
-      75% {
-        transform: scale(1.5);
+      80% {
+        transform: scale(1.2);
       }
 
       100% {
@@ -39,8 +44,9 @@ export default html`
       z-index: 1;
       font-size: 7rem;
       opacity: 0;
-      animation-name: heartBeat;
-      animation-duration: 1.3s;
+      animation-name: growth;
+      animation-delay: 0.2s;
+      animation-duration: 1.1s;
       animation-timing-function: ease-in-out;
       animation-play-state: paused;
     }

@@ -1,12 +1,12 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
+import './options';
 import './elements/button';
 import './elements/card-grid';
 
-import getData from './characters';
+import getData from './utils/characters';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
 import GameTimer from './utils/GameTimer';
-import { mediaOn, Size } from './utils/mediaOn';
 
 @customElement('glk-app')
 class App extends LitElement {
@@ -23,8 +23,13 @@ class App extends LitElement {
         display: flex;
         align-items: center;
         background-color: var(--primary-colour);
-        padding: 10px 5px;
+        padding: 10px 15px;
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
+      }
+
+      .content {
+        display: flex;
+        height: calc(100vh - 46px);
       }
 
       .summary {
@@ -37,22 +42,29 @@ class App extends LitElement {
         white-space: pre;
       }
 
-      ${mediaOn(
-        Size.XS,
-        css`
-          .action-bar {
-            flex-direction: column;
-          }
-        `
-      )}
-
       /* Helpers */
       .flex-spacer {
         display: flex;
         flex: 1;
       }
+
+      /* Responsive */
+      @media (max-width: 479px) {
+        .action-bar {
+          flex-direction: column;
+        }
+        .action-bar > * {
+          margin: 5px 0;
+        }
+        .flex-spacer {
+          display: none;
+        }
+      }
     `;
   }
+
+  @property({ type: Boolean })
+  private showOptions = false;
 
   @property({ type: Number })
   private timer: number = 0;
@@ -62,6 +74,9 @@ class App extends LitElement {
 
   @property({ type: String })
   private timeElapsed = '00m 00s';
+
+  @property({ type: Function })
+  private unsubTimer: () => string = () => '';
 
   @property({ type: Array })
   private gameSummary: string[] = [];
@@ -92,41 +107,67 @@ class App extends LitElement {
               `
             : ''}
           <div class="flex-spacer"></div>
-          <glk-button primary ?disabled=${this.inGame} @press="${this.newGame}"
-            >New game</glk-button
-          >
-          <glk-button
-            primary
-            ?disabled=${!this.inGame}
-            @press="${() => this.endGame(false)}"
-            >Quit game</glk-button
-          >
+          ${!this.showOptions
+            ? html`
+                <div>
+                  <glk-button
+                    primary
+                    ?disabled=${this.inGame}
+                    @press="${this.newGame}"
+                    >New game</glk-button
+                  >
+                  <glk-button
+                    primary
+                    ?disabled=${!this.inGame}
+                    @press="${() => this.endGame(false)}"
+                    >Quit game</glk-button
+                  >
+                </div>
+              `
+            : ''}
+
           <div class="flex-spacer"></div>
           ${this.inGame
             ? html`
-                <div>${pairCount} Pairs found.</div>
+                <div>${pairCount} Pairs found</div>
+              `
+            : ''}
+          ${!this.inGame
+            ? html`
+                <glk-button icon @press=${() => (this.showOptions = true)}
+                  >⚙︎</glk-button
+                >
               `
             : ''}
         </div>
-        ${hasSummary
+        ${!this.showOptions
           ? html`
-              <div class="summary">${this.gameSummary.join('\r\n')}</div>
+              <div class="content">
+                ${hasSummary
+                  ? html`
+                      <div class="summary">
+                        ${this.gameSummary.join('\r\n')}
+                      </div>
+                    `
+                  : ''}
+                <glk-card-grid
+                  .cards=${this.cards}
+                  .selected=${this.choices}
+                  .removed=${this.pairs}
+                  ?hasMatch=${this.hasMatch}
+                  @flipped="${this.onCardFlip}"
+                >
+                </glk-card-grid>
+              </div>
             `
-          : ''}
-        <glk-card-grid
-          .cards=${this.cards}
-          .selected=${this.choices}
-          .removed=${this.pairs}
-          ?hasMatch=${this.hasMatch}
-          @flipped="${this.onCardFlip}"
-        >
-        </glk-card-grid>
+          : html`
+              <glk-options
+                @close=${() => (this.showOptions = false)}
+              ></glk-options>
+            `}
       </main>
     `;
   }
-
-  @property({ type: Function })
-  private unsubTimer: () => string = () => '';
 
   private newGame() {
     this.gameSummary = [];

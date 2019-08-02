@@ -1,9 +1,10 @@
 /*tslint:disable:no-bitwise*/
-import { Card } from './interfaces/Card';
-import { Character } from './interfaces/Character';
+import { Card } from '../interfaces/Card';
+import { Character } from '../interfaces/Character';
 
-import generateUniqueId from './utils/generateUniqueId';
-import shuffleArray from './utils/shuffleArray';
+import { optsStore } from './storage';
+import generateUniqueId from './generateUniqueId';
+import shuffleArray from './shuffleArray';
 
 const characters: Character[] = [
   { id: 2, image: 'https://i.imgur.com/3xdrczj.jpg', name: 'Kagari Ayaka' },
@@ -90,7 +91,12 @@ const addId = (x: Character): Card => ({
 });
 
 export default function getData(): Card[] {
-  const randomCharacters = shuffleArray(characters).slice(0, 3); // TODO use larger deck
+  const opts = optsStore.get();
+  const randomCharacters = shuffleArray(characters).slice(
+    0,
+    opts.startingPairs
+  );
+
   const paired = [...randomCharacters, ...randomCharacters];
   return shuffleArray<Character>(paired).map(addId);
 }
