@@ -183,6 +183,7 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
       }
       .button--icon:hover {
         background-color: initial;
+        padding: 2px 8px;
         box-shadow: 1px 1px 2px 0px var(--shadow-colour),
           0px 0px 1px 0px var(--shadow-colour);
       }
@@ -543,7 +544,7 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
 
       .content {
         display: flex;
-        height: calc(100vh - 46px);
+        height: calc(100vh - 51px); /* account for action-bar */
       }
 
       .summary {
