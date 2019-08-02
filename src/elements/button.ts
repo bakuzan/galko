@@ -32,13 +32,13 @@ class Button extends LitElement {
       }
 
       .button--icon {
+        padding: 2px 8px;
         border-radius: 50%;
         box-shadow: none;
         font-size: 1.25rem;
       }
       .button--icon:hover {
         background-color: initial;
-        padding: 2px 8px;
         box-shadow: 1px 1px 2px 0px var(--shadow-colour),
           0px 0px 1px 0px var(--shadow-colour);
       }
