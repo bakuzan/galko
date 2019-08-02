@@ -29,17 +29,19 @@ class App extends LitElement {
 
       .content {
         display: flex;
+        flex-direction: column;
         height: calc(100vh - 51px); /* account for action-bar */
       }
 
       .summary {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         background-color: var(--secondary-colour);
         color: var(--secondary-contrast);
         padding: 5px;
         margin: 10px 5px;
-        white-space: pre;
+        white-space: pre-line;
       }
 
       /* Helpers */
@@ -143,7 +145,12 @@ class App extends LitElement {
                 ${hasSummary
                   ? html`
                       <div class="summary">
-                        ${this.gameSummary.join('\r\n')}
+                        ${this.gameSummary.map(
+                          (x) =>
+                            html`
+                              <div>${x}</div>
+                            `
+                        )}
                       </div>
                     `
                   : ''}
