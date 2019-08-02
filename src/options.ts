@@ -32,9 +32,9 @@ class Options extends LitElement {
   }
 
   @property({ type: Number })
-  startingPairs = 0;
+  public startingPairs = 0;
 
-  firstUpdated() {
+  public firstUpdated() {
     const options = optsStore.get();
     this.startingPairs = options.startingPairs;
   }

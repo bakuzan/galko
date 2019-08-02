@@ -1,11 +1,11 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
-import './options';
 import './elements/button';
 import './elements/card-grid';
+import './options';
 
-import getData from './utils/characters';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
+import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
 
 @customElement('glk-app')
@@ -29,7 +29,7 @@ class App extends LitElement {
 
       .content {
         display: flex;
-        height: calc(100vh - 46px);
+        height: calc(100vh - 51px); /* account for action-bar */
       }
 
       .summary {
@@ -74,9 +74,6 @@ class App extends LitElement {
 
   @property({ type: String })
   private timeElapsed = '00m 00s';
-
-  @property({ type: Function })
-  private unsubTimer: () => string = () => '';
 
   @property({ type: Array })
   private gameSummary: string[] = [];
@@ -168,6 +165,9 @@ class App extends LitElement {
       </main>
     `;
   }
+
+  @property({ type: Function })
+  private unsubTimer: () => string = () => '';
 
   private newGame() {
     this.gameSummary = [];

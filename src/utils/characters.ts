@@ -2,9 +2,9 @@
 import { Card } from '../interfaces/Card';
 import { Character } from '../interfaces/Character';
 
-import { optsStore } from './storage';
 import generateUniqueId from './generateUniqueId';
 import shuffleArray from './shuffleArray';
+import { optsStore } from './storage';
 
 const characters: Character[] = [
   { id: 2, image: 'https://i.imgur.com/3xdrczj.jpg', name: 'Kagari Ayaka' },
