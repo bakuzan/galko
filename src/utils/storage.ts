@@ -38,5 +38,6 @@ export class Storage<T> {
 
 export const optsStore = new Storage<GlkOptions>('glkOptions', {
   cardBack: CardBackType.subtleDots,
+  hideOnMatch: true,
   startingPairs: 15
 });

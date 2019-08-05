@@ -3,6 +3,7 @@ import { customElement, html, LitElement, property } from 'lit-element';
 
 import style from '../style/card';
 import './card-back';
+import { optsStore } from '../utils/storage';
 
 @customElement('glk-card')
 class Card extends LitElement {
@@ -15,6 +16,9 @@ class Card extends LitElement {
 
   @property({ type: Boolean })
   public isHidden = false;
+
+  @property({ type: Boolean })
+  public shouldHide = true;
 
   @property({ type: String })
   public cardId = '';
@@ -34,11 +38,20 @@ class Card extends LitElement {
   @property({ type: String })
   public cardBack = '';
 
+  firstUpdated() {
+    const opts = optsStore.get();
+    this.shouldHide = opts.hideOnMatch;
+  }
+
   public render() {
-    if (this.isHidden) {
+    const hideCard = this.isHidden && this.shouldHide;
+    const leaveFlipped = this.isHidden && !this.shouldHide;
+
+    if (hideCard) {
       return html``;
     }
 
+    const isFlipped = this.isFaceUp || leaveFlipped;
     const image = this.image
       ? this.image.slice(0).replace(/\.jpg/, 't.jpg')
       : null;
@@ -46,8 +59,8 @@ class Card extends LitElement {
     return html`
       <button
         type="button"
-        class="card card--clickable ${this.isFaceUp ? 'card--touched' : ''}"
-        @click="${this.handleClick}"
+        class="card card--clickable ${isFlipped ? 'card--touched' : ''}"
+        @click=${isFlipped ? null : this.handleClick}
       >
         <div class="card__axis">
           <div class="card__front">

@@ -32,6 +32,66 @@ class Options extends LitElement {
           flex-direction: column;
           margin-bottom: 10px;
         }
+        .glk-control--checkbox {
+          display: flex;
+          min-height: 35px;
+          max-height: 45px;
+          flex: 1;
+          margin-top: 10px;
+        }
+        .glk-control__label {
+          position: relative;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex: 0 1;
+          padding: 2px;
+          padding-left: 25px;
+          cursor: pointer;
+        }
+        .glk-checkbox {
+          /* For screenreader */
+          border: 0;
+          /*clip: rect(0 0 0 0);*/
+          height: 1px;
+          margin: -1px;
+          overflow: visible;
+          padding: 0;
+          position: absolute;
+          top: 1px;
+          left: 8px;
+          width: 1px;
+          -webkit-appearance: none;
+          /* For screenreader */
+          transition: all 0.3s;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .glk-checkbox::before,
+        .glk-checkbox:checked::before {
+          color: #000;
+          transition: all 0.3s;
+          cursor: pointer;
+          z-index: 10;
+        }
+        .glk-checkbox::before {
+          content: '\u2610';
+          font-size: 2em;
+          width: 20px;
+          height: 20px;
+          margin: 0 5px;
+        }
+        ,
+        .glk-checkbox:disabled::before {
+          content: '\u274c';
+          color: #666;
+          cursor: default;
+        }
+        .glk-checkbox:checked::before {
+          content: '\u2611';
+          color: #0f0;
+        }
 
         .button-block {
           margin: 3rem 0;
@@ -46,10 +106,14 @@ class Options extends LitElement {
   @property({ type: String })
   public cardBack = CardBackType.subtleDots;
 
+  @property({ type: Boolean })
+  hideOnMatch = true;
+
   public firstUpdated() {
     const options = optsStore.get();
     this.startingPairs = options.startingPairs;
     this.cardBack = options.cardBack;
+    this.hideOnMatch = options.hideOnMatch;
   }
 
   public render() {
@@ -82,6 +146,18 @@ class Options extends LitElement {
               ${CARD_BACK_OPTIONS}
             </select>
           </div>
+          <div class="glk-control glk-control--checkbox">
+            <label for="hideOnMatch" class="glk-control__label">
+              <input
+                type="checkbox"
+                id="hideOnMatch"
+                class="glk-checkbox"
+                .checked=${this.hideOnMatch}
+                @change=${this.onToggle}
+              />
+              Hide matched pairs
+            </label>
+          </div>
           <div class="button-block">
             <glk-button
               primary
@@ -108,6 +184,11 @@ class Options extends LitElement {
     this.cardBack = t.value as CardBackType;
   }
 
+  private onToggle(event: Event) {
+    const t = event.target as HTMLInputElement;
+    this.hideOnMatch = t.checked;
+  }
+
   private isValidForm() {
     return this.startingPairs >= 1 && this.startingPairs <= 26;
   }
@@ -120,6 +201,7 @@ class Options extends LitElement {
 
     optsStore.set({
       cardBack: this.cardBack,
+      hideOnMatch: this.hideOnMatch,
       startingPairs: this.startingPairs
     });
 
