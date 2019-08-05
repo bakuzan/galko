@@ -7,6 +7,7 @@ import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
+import { mediaOn, Size } from './utils/mediaOn';
 
 @customElement('glk-app')
 class App extends LitElement {
@@ -51,17 +52,20 @@ class App extends LitElement {
       }
 
       /* Responsive */
-      @media (max-width: 479px) {
-        .action-bar {
-          flex-direction: column;
-        }
-        .action-bar > * {
-          margin: 5px 0;
-        }
-        .flex-spacer {
-          display: none;
-        }
-      }
+      ${mediaOn(
+        Size.XS,
+        css`
+          .action-bar {
+            flex-direction: column;
+          }
+          .action-bar > * {
+            margin: 5px 0;
+          }
+          .flex-spacer {
+            display: none;
+          }
+        `
+      )}
     `;
   }
 

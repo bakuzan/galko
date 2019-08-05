@@ -1,4 +1,5 @@
 import { GlkOptions } from 'interfaces/GlkOptions';
+import { CardBackType } from '../elements/card/CardBackType';
 
 export class Storage<T> {
   private storeName: string = '';
@@ -11,7 +12,8 @@ export class Storage<T> {
 
   public get(): T {
     const item = localStorage.getItem(this.storeName) || '';
-    return item ? JSON.parse(item) : this.defaultValue;
+    const values = item ? JSON.parse(item) : this.defaultValue;
+    return { ...this.defaultValue, ...values };
   }
 
   public set(mergeValues: object): T {
@@ -35,5 +37,6 @@ export class Storage<T> {
 }
 
 export const optsStore = new Storage<GlkOptions>('glkOptions', {
+  cardBack: CardBackType.subtleDots,
   startingPairs: 15
 });

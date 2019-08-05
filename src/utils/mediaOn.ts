@@ -6,9 +6,9 @@ const screenMD = 992;
 const screenLG = 1200;
 
 // Prevent overlapping
-const screenXSMax = screenSM - 1;
-const screenSMMax = screenMD - 1;
-const screenMDMax = screenLG - 1;
+const screenXSMax = screenXS - 1;
+const screenSMMax = screenSM - 1;
+const screenMDMax = screenMD - 1;
 
 export enum Size {
   XS = 'xs',
@@ -19,7 +19,7 @@ export enum Size {
 
 const sizeFn = {
   xs: (s: CSSResult) => css`
-    @media (max-width: ${screenXSMax}) {
+    @media (max-width: ${screenXSMax}px) {
       ${s}
     }
   `

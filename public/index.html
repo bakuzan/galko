@@ -21,7 +21,7 @@
 
     <title>Galko</title>
 
-    <style>
+    <style id="glk-vars">
       :root {
         --font-size: 16px;
         --font-family: 'Lucida Console', 'Courier New', monospace;
@@ -40,10 +40,12 @@
 
         --card-width: 103px;
         --card-height: 160px;
+        --card-back-width: 93px;
+        --card-back-height: 150px;
 
         --shadow-colour: #999900;
         --card-shadow: #999900;
-        --card-colour: #bbb;
+        --card-colour: var(--secondary-colour);
       }
 
       body {

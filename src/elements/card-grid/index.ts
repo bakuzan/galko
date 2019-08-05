@@ -1,5 +1,7 @@
 import { Card } from 'interfaces/Card';
 import { css, customElement, html, LitElement, property } from 'lit-element';
+import getCardBackground from '../../utils/getCardBackground';
+import { optsStore } from '../../utils/storage';
 import '../card';
 import baseAnimationStyle from './style';
 
@@ -35,6 +37,14 @@ class CardGrid extends LitElement {
 
   @property({ type: Boolean })
   private hasMatch = false;
+
+  @property({ type: String })
+  private cardBack = '';
+
+  public firstUpdated() {
+    const opts = optsStore.get();
+    this.cardBack = getCardBackground(opts.cardBack);
+  }
 
   public render() {
     const hasPair = this.selected.length === 2;
@@ -74,6 +84,7 @@ class CardGrid extends LitElement {
             cardId=${card.id}
             name=${card.name}
             image=${card.image}
+            cardBack=${this.cardBack}
             ?isFaceUp=${isFlipped}
             ?isHidden=${isHidden}
           ></glk-card>

@@ -1,8 +1,16 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 
+import { CardBackType } from './elements/card/CardBackType';
 import floatLabel from './style/floatLabel';
+import { separateAndCapitalise } from './utils/capitalise';
 import { optsStore } from './utils/storage';
+
+const CARD_BACK_OPTIONS = Object.keys(CardBackType).map(
+  (op) => html`
+    <option value=${op}>${separateAndCapitalise(op)}</option>
+  `
+);
 
 @customElement('glk-options')
 class Options extends LitElement {
@@ -22,10 +30,11 @@ class Options extends LitElement {
         .glk-control {
           display: flex;
           flex-direction: column;
+          margin-bottom: 10px;
         }
 
         .button-block {
-          margin: 1rem 0;
+          margin: 3rem 0;
         }
       `
     ];
@@ -34,9 +43,13 @@ class Options extends LitElement {
   @property({ type: Number })
   public startingPairs = 0;
 
+  @property({ type: String })
+  public cardBack = CardBackType.subtleDots;
+
   public firstUpdated() {
     const options = optsStore.get();
     this.startingPairs = options.startingPairs;
+    this.cardBack = options.cardBack;
   }
 
   public render() {
@@ -54,9 +67,20 @@ class Options extends LitElement {
               type="number"
               min="1"
               max="26"
-              value=${this.startingPairs}
+              .value=${this.startingPairs}
               @input=${this.onUserInput}
             />
+          </div>
+          <div class="glk-control has-float-label has-float-label--select">
+            <label for="cardBack">Card Back Pattern</label>
+            <select
+              id="cardBack"
+              class="glk-control__input"
+              .value=${this.cardBack}
+              @change=${this.onSelect}
+            >
+              ${CARD_BACK_OPTIONS}
+            </select>
           </div>
           <div class="button-block">
             <glk-button
@@ -76,7 +100,12 @@ class Options extends LitElement {
   private onUserInput(event: KeyboardEvent) {
     const t = event.target as HTMLInputElement;
     const startingPairs = Number(t.value);
-    this.startingPairs = optsStore.set({ startingPairs }).startingPairs;
+    this.startingPairs = startingPairs;
+  }
+
+  private onSelect(event: Event) {
+    const t = event.target as HTMLSelectElement;
+    this.cardBack = t.value as CardBackType;
   }
 
   private isValidForm() {
@@ -88,6 +117,11 @@ class Options extends LitElement {
     if (!this.isValidForm()) {
       return;
     }
+
+    optsStore.set({
+      cardBack: this.cardBack,
+      startingPairs: this.startingPairs
+    });
 
     const event = new CustomEvent('close');
     this.dispatchEvent(event);

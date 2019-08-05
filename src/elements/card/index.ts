@@ -1,5 +1,7 @@
 import { CardFlip } from 'interfaces/CardFlip';
 import { customElement, html, LitElement, property } from 'lit-element';
+
+import './card-back';
 import style from './style';
 
 @customElement('glk-card')
@@ -29,6 +31,9 @@ class Card extends LitElement {
   @property({ type: Number })
   public height = 160;
 
+  @property({ type: String })
+  public cardBack = '';
+
   public render() {
     if (this.isHidden) {
       return html``;
@@ -49,7 +54,9 @@ class Card extends LitElement {
               height=${this.height}
             />
           </div>
-          <div class="card__back"></div>
+          <div class="card__back">
+            <glk-card-back image=${this.cardBack}></glk-card-back>
+          </div>
         </div>
       </button>
     `;

@@ -76,8 +76,9 @@ export default css`
   .has-float-label select {
     padding: 0.75em 0.25em 0 0.75em;
     margin-bottom: 0;
+    cursor: pointer;
   }
-  .has-float-label.select-container::after {
+  .has-float-label--select::after {
     content: '⌵';
     position: absolute;
     top: 75%;
