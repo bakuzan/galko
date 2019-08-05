@@ -3,9 +3,9 @@ import './elements/button';
 import './elements/card-grid';
 import './options';
 
+import { MediaSize } from './enums/MediaSize';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
-import { MediaSize } from './enums/MediaSize';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
@@ -83,9 +83,6 @@ class App extends LitElement {
 
   @property({ type: String })
   private timeElapsed = '00m 00s';
-
-  @property({ type: Function })
-  private unsubTimer: () => string = () => '';
 
   @property({ type: Array })
   private gameSummary: string[] = [];
@@ -180,6 +177,9 @@ class App extends LitElement {
       </main>
     `;
   }
+
+  @property({ type: Function })
+  private unsubTimer: () => string = () => '';
 
   private handleOptions() {
     this.showOptions = true;
