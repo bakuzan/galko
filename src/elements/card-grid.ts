@@ -1,9 +1,10 @@
-import { Card } from 'interfaces/Card';
 import { css, customElement, html, LitElement, property } from 'lit-element';
-import getCardBackground from '../../utils/getCardBackground';
-import { optsStore } from '../../utils/storage';
-import '../card';
-import baseAnimationStyle from './style';
+
+import './card';
+import { Card } from '../interfaces/Card';
+import getCardBackground from '../utils/getCardBackground';
+import { optsStore } from '../utils/storage';
+import baseAnimationStyle from '../style/cardGrid';
 
 @customElement('glk-card-grid')
 class CardGrid extends LitElement {

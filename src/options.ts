@@ -1,7 +1,7 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 
-import { CardBackType } from './elements/card/CardBackType';
+import { CardBackType } from './enums/CardBackType';
 import floatLabel from './style/floatLabel';
 import { separateAndCapitalise } from './utils/capitalise';
 import { optsStore } from './utils/storage';

@@ -5,9 +5,10 @@ import './options';
 
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
+import { MediaSize } from './enums/MediaSize';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
-import { mediaOn, Size } from './utils/mediaOn';
+import { mediaOn } from './utils/mediaOn';
 
 @customElement('glk-app')
 class App extends LitElement {
@@ -24,8 +25,10 @@ class App extends LitElement {
         display: flex;
         align-items: center;
         background-color: var(--primary-colour);
+        height: 51px;
         padding: 10px 15px;
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
+        box-sizing: border-box;
       }
 
       .content {
@@ -53,7 +56,7 @@ class App extends LitElement {
 
       /* Responsive */
       ${mediaOn(
-        Size.XS,
+        MediaSize.XS,
         css`
           .action-bar {
             flex-direction: column;
@@ -80,6 +83,9 @@ class App extends LitElement {
 
   @property({ type: String })
   private timeElapsed = '00m 00s';
+
+  @property({ type: Function })
+  private unsubTimer: () => string = () => '';
 
   @property({ type: Array })
   private gameSummary: string[] = [];
@@ -137,9 +143,7 @@ class App extends LitElement {
             : ''}
           ${!this.inGame
             ? html`
-                <glk-button icon @press=${() => (this.showOptions = true)}
-                  >⚙︎</glk-button
-                >
+                <glk-button icon @press=${this.handleOptions}>⚙︎</glk-button>
               `
             : ''}
         </div>
@@ -177,8 +181,12 @@ class App extends LitElement {
     `;
   }
 
-  @property({ type: Function })
-  private unsubTimer: () => string = () => '';
+  private handleOptions() {
+    this.showOptions = true;
+    this.cards = [];
+    this.gameSummary = [];
+    this.choices = [];
+  }
 
   private newGame() {
     this.gameSummary = [];

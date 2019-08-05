@@ -1,4 +1,4 @@
-import { CardBackType } from 'elements/card/CardBackType';
+import { CardBackType } from 'enums/CardBackType';
 
 export interface GlkOptions {
   startingPairs: number;

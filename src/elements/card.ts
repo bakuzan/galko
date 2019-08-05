@@ -2,7 +2,7 @@ import { CardFlip } from 'interfaces/CardFlip';
 import { customElement, html, LitElement, property } from 'lit-element';
 
 import './card-back';
-import style from './style';
+import style from '../style/card';
 
 @customElement('glk-card')
 class Card extends LitElement {
@@ -23,7 +23,7 @@ class Card extends LitElement {
   public name = '';
 
   @property({ type: String })
-  public image = null;
+  public image = '';
 
   @property({ type: Number })
   public width = 103;
@@ -39,6 +39,10 @@ class Card extends LitElement {
       return html``;
     }
 
+    const image = this.image
+      ? this.image.slice(0).replace(/\.jpg/, 't.jpg')
+      : null;
+
     return html`
       <button
         type="button"
@@ -48,7 +52,7 @@ class Card extends LitElement {
         <div class="card__axis">
           <div class="card__front">
             <img
-              src=${this.image}
+              src=${image}
               alt=${this.name}
               width=${this.width}
               height=${this.height}

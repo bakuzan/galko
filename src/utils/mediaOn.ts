@@ -1,4 +1,5 @@
 import { css, CSSResult } from 'lit-element';
+import { MediaSize } from '../enums/MediaSize';
 
 const screenXS = 480;
 const screenSM = 768;
@@ -10,13 +11,6 @@ const screenXSMax = screenXS - 1;
 const screenSMMax = screenSM - 1;
 const screenMDMax = screenMD - 1;
 
-export enum Size {
-  XS = 'xs',
-  SM = 'sm',
-  MD = 'md',
-  LG = 'lg'
-}
-
 const sizeFn = {
   xs: (s: CSSResult) => css`
     @media (max-width: ${screenXSMax}px) {
@@ -25,9 +19,9 @@ const sizeFn = {
   `
 };
 
-export function mediaOn(key: Size, style: CSSResult) {
+export function mediaOn(key: MediaSize, style: CSSResult) {
   switch (key) {
-    case Size.XS:
+    case MediaSize.XS:
       return sizeFn.xs(style);
     default:
       return css``;

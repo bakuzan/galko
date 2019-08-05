@@ -1,5 +1,5 @@
 import { GlkOptions } from 'interfaces/GlkOptions';
-import { CardBackType } from '../elements/card/CardBackType';
+import { CardBackType } from '../enums/CardBackType';
 
 export class Storage<T> {
   private storeName: string = '';
