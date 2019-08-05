@@ -107,7 +107,7 @@ class Options extends LitElement {
   public cardBack = CardBackType.subtleDots;
 
   @property({ type: Boolean })
-  hideOnMatch = true;
+  public hideOnMatch = true;
 
   public firstUpdated() {
     const options = optsStore.get();
