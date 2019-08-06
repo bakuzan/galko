@@ -72,7 +72,7 @@ class Card extends LitElement {
             />
           </div>
           <div class="card__back">
-            <glk-card-back image=${this.cardBack}></glk-card-back>
+            <glk-card-back .image=${this.cardBack}></glk-card-back>
           </div>
         </div>
       </button>

@@ -84,8 +84,8 @@ class CardGrid extends LitElement {
             class="${classes}"
             cardId=${card.id}
             name=${card.name}
-            image=${card.image}
-            cardBack=${this.cardBack}
+            .image=${card.image}
+            .cardBack=${this.cardBack}
             ?isFaceUp=${isFlipped}
             ?isHidden=${isHidden}
           ></glk-card>

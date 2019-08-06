@@ -1,6 +1,7 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 import './elements/card-grid';
+import './elements/streak';
 import './options';
 
 import { MediaSize } from './enums/MediaSize';
@@ -35,6 +36,12 @@ class App extends LitElement {
         display: flex;
         flex-direction: column;
         height: calc(100vh - 51px); /* account for action-bar */
+      }
+      .content__streak {
+        display: flex;
+        justify-content: flex-end;
+        min-height: 46px;
+        margin-right: 15px;
       }
 
       .summary {
@@ -72,6 +79,9 @@ class App extends LitElement {
     `;
   }
 
+  @property({ type: Array })
+  public streakProgression: number[] = [];
+
   @property({ type: Boolean })
   private showOptions = false;
 
@@ -103,6 +113,7 @@ class App extends LitElement {
     const pLen = this.pairs.length;
     const pairCount = pLen ? pLen / 2 : 0;
     const hasSummary = this.gameSummary.length > 0;
+    const currentStreak = this.streakProgression.slice(0).pop() || 0;
 
     return html`
       <main>
@@ -159,6 +170,13 @@ class App extends LitElement {
                       </div>
                     `
                   : ''}
+                ${this.inGame
+                  ? html`
+                      <div class="content__streak">
+                        <glk-streak streak=${currentStreak}></glk-streak>
+                      </div>
+                    `
+                  : ''}
                 <glk-card-grid
                   .cards=${this.cards}
                   .selected=${this.choices}
@@ -186,10 +204,12 @@ class App extends LitElement {
     this.cards = [];
     this.gameSummary = [];
     this.choices = [];
+    this.streakProgression = [];
   }
 
   private newGame() {
     this.gameSummary = [];
+    this.streakProgression = [];
     this.choices = [];
     this.cards = getData();
     this.inGame = true;
@@ -199,6 +219,7 @@ class App extends LitElement {
   private endGame(success = false) {
     const timeElapsed = this.unsubTimer();
     const pairs = this.pairs.length / 2;
+    const longestStreak = Math.max(...this.streakProgression);
 
     this.inGame = false;
     this.pairs = [];
@@ -207,7 +228,8 @@ class App extends LitElement {
     this.choices = this.cards.map((x) => x.id);
     this.gameSummary = [
       success ? `You found all the pairs!` : 'Quitters always quit.',
-      `${pairs} pairs found in ${timeElapsed}`
+      `${pairs} pairs found in ${timeElapsed}`,
+      `${longestStreak} was your longest match streak`
     ];
   }
 
@@ -238,6 +260,7 @@ class App extends LitElement {
       }
     });
 
+    const currentStreak = this.streakProgression.slice(-1).pop() || 0;
     const isMatch = new Set(characterIds).size === 1;
     this.hasMatch = isMatch;
 
@@ -246,9 +269,15 @@ class App extends LitElement {
     this.timer = window.setTimeout(() => {
       if (isMatch) {
         this.pairs = [...this.pairs, ...this.choices];
+        this.streakProgression = [
+          ...this.streakProgression.slice(0, -1),
+          currentStreak + 1
+        ];
+      } else if (currentStreak > 0) {
+        this.streakProgression = [...this.streakProgression, 0];
       }
 
-      // Reset choices
+      // Reset
       this.choices = [];
       this.hasMatch = false;
       this.checkGameState();
