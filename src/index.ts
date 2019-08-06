@@ -25,7 +25,7 @@ class App extends LitElement {
         display: flex;
         align-items: center;
         background-color: var(--primary-colour);
-        height: 51px;
+        min-height: 51px;
         padding: 10px 15px;
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
         box-sizing: border-box;
@@ -198,7 +198,7 @@ class App extends LitElement {
 
   private endGame(success = false) {
     const timeElapsed = this.unsubTimer();
-    const pairs = this.pairs.length;
+    const pairs = this.pairs.length / 2;
 
     this.inGame = false;
     this.pairs = [];

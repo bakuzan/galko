@@ -6,11 +6,7 @@ import floatLabel from './style/floatLabel';
 import { separateAndCapitalise } from './utils/capitalise';
 import { optsStore } from './utils/storage';
 
-const CARD_BACK_OPTIONS = Object.keys(CardBackType).map(
-  (op) => html`
-    <option value=${op}>${separateAndCapitalise(op)}</option>
-  `
-);
+const CARD_BACK_OPTIONS = Object.keys(CardBackType);
 
 @customElement('glk-options')
 class Options extends LitElement {
@@ -111,6 +107,7 @@ class Options extends LitElement {
 
   public firstUpdated() {
     const options = optsStore.get();
+
     this.startingPairs = options.startingPairs;
     this.cardBack = options.cardBack;
     this.hideOnMatch = options.hideOnMatch;
@@ -140,10 +137,15 @@ class Options extends LitElement {
             <select
               id="cardBack"
               class="glk-control__input"
-              .value=${this.cardBack}
               @change=${this.onSelect}
             >
-              ${CARD_BACK_OPTIONS}
+              ${CARD_BACK_OPTIONS.map(
+                (op) => html`
+                  <option value=${op} ?selected=${op === this.cardBack}
+                    >${separateAndCapitalise(op)}</option
+                  >
+                `
+              )}
             </select>
           </div>
           <div class="glk-control glk-control--checkbox">
@@ -152,7 +154,7 @@ class Options extends LitElement {
                 type="checkbox"
                 id="hideOnMatch"
                 class="glk-checkbox"
-                .checked=${this.hideOnMatch}
+                ?checked=${this.hideOnMatch}
                 @change=${this.onToggle}
               />
               Hide matched pairs
