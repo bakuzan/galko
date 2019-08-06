@@ -253,13 +253,13 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
     }
   </style>
 `;!function(t){t.argyle="argyle",t.blueprint="blueprint",t.chevrons="chevrons",t.honeyCombs="honeyCombs",t.shippo="shippo",t.subtleDots="subtleDots"}(gt||(gt={}));const yt={primaryColour:"#fdd87f",primaryColourHovered:"#999900",secondaryColour:"#51c2ea",secondaryColourHovered:"#2a87ca"};function bt(t){return function(t){const e=document.createElement("div");return e.innerHTML=function(t){const{strings:e,values:i}=t,s=e.length;let r="";for(let t=0;t<s;t++)r+=e[t]+(i[t]||"");return r}(t),"data:image/svg+xml;base64,"+window.btoa(e.innerHTML)}(function(t){switch(t){case gt.argyle:return V`
-        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="90">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="76">
           <g transform="scale(1 1.5)">
             <rect width="99" height="99" fill=${yt.primaryColour} />
             <rect
-              width="42.42"
-              height="42.42"
-              transform="translate(30 0) rotate(45)"
+              width="34"
+              height="34"
+              transform="translate(25 0) rotate(45)"
               fill=${yt.primaryColourHovered}
             />
             <rect
@@ -271,17 +271,17 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
             <rect
               width="99"
               height="1"
-              transform="translate(0 60) rotate(-45)"
+              transform="translate(0 50) rotate(-45)"
               fill=${yt.secondaryColour}
             />
           </g>
         </svg>
       `;case gt.shippo:return V`
-        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-          <rect width="80" height="80" fill=${yt.primaryColour} />
-          <circle cx="40" cy="40" r="40" fill=${yt.secondaryColour} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+          <rect width="60" height="60" fill=${yt.primaryColour} />
+          <circle cx="30" cy="30" r="30" fill=${yt.secondaryColour} />
           <path
-            d="M0 40 A40 40 45 0 0 40 0 A40 40 315 0 0 80 40 A40 40 45 0 0 40 80 A40 40 270 0 0 0 40Z"
+            d="M0 30 A30 30 35 0 0 30 0 A30 30 300 0 0 60 30 A30 30 35 0 0 30 60 A30 30 250 0 0 0 30Z"
             fill=${yt.primaryColour}
           />
         </svg>
@@ -305,13 +305,13 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="60"
+          width="48"
           height="30"
         >
           <defs>
             <rect
               id="r"
-              width="30"
+              width="24"
               height="15"
               fill=${yt.primaryColour}
               stroke-width="2.5"
@@ -325,24 +325,24 @@ const st=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
             </g>
           </defs>
           <use xlink:href="#p" transform="translate(0 -25) skewY(40)" />
-          <use xlink:href="#p" transform="translate(30 0) skewY(-40)" />
+          <use xlink:href="#p" transform="translate(24 0) skewY(-40)" />
         </svg>
       `;case gt.blueprint:return V`
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-          <rect width="100" height="100" fill=${yt.primaryColour} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect width="30" height="30" fill=${yt.primaryColour} />
           <g fill=${yt.secondaryColourHovered}>
-            <rect width="100" height="1" y="20" />
-            <rect width="100" height="1" y="40" />
+            <rect width="100" height="1" y="15" />
+            <rect width="100" height="1" y="30" />
+            <rect width="100" height="1" y="45" />
             <rect width="100" height="1" y="60" />
-            <rect width="100" height="1" y="80" />
-            <rect width="1" height="100" x="20" />
-            <rect width="1" height="100" x="40" />
+            <rect width="1" height="100" x="15" />
+            <rect width="1" height="100" x="30" />
+            <rect width="1" height="100" x="45" />
             <rect width="1" height="100" x="60" />
-            <rect width="1" height="100" x="80" />
           </g>
           <rect
-            width="100"
-            height="100"
+            width="30"
+            height="30"
             fill="none"
             stroke-width="2"
             stroke=${yt.secondaryColour}
