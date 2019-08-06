@@ -219,7 +219,7 @@ class App extends LitElement {
   private endGame(success = false) {
     const timeElapsed = this.unsubTimer();
     const pairs = this.pairs.length / 2;
-    const longestStreak = Math.max(...this.streakProgression);
+    const longestStreak = Math.max(...this.streakProgression, 0);
 
     this.inGame = false;
     this.pairs = [];
