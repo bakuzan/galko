@@ -14,13 +14,13 @@ function getCardBackStyle(type: CardBackType) {
   switch (type) {
     case CardBackType.argyle:
       return html`
-        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="90">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="76">
           <g transform="scale(1 1.5)">
             <rect width="99" height="99" fill=${colours.primaryColour} />
             <rect
-              width="42.42"
-              height="42.42"
-              transform="translate(30 0) rotate(45)"
+              width="34"
+              height="34"
+              transform="translate(25 0) rotate(45)"
               fill=${colours.primaryColourHovered}
             />
             <rect
@@ -32,7 +32,7 @@ function getCardBackStyle(type: CardBackType) {
             <rect
               width="99"
               height="1"
-              transform="translate(0 60) rotate(-45)"
+              transform="translate(0 50) rotate(-45)"
               fill=${colours.secondaryColour}
             />
           </g>
@@ -41,11 +41,11 @@ function getCardBackStyle(type: CardBackType) {
 
     case CardBackType.shippo:
       return html`
-        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
-          <rect width="80" height="80" fill=${colours.primaryColour} />
-          <circle cx="40" cy="40" r="40" fill=${colours.secondaryColour} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+          <rect width="60" height="60" fill=${colours.primaryColour} />
+          <circle cx="30" cy="30" r="30" fill=${colours.secondaryColour} />
           <path
-            d="M0 40 A40 40 45 0 0 40 0 A40 40 315 0 0 80 40 A40 40 45 0 0 40 80 A40 40 270 0 0 0 40Z"
+            d="M0 30 A30 30 35 0 0 30 0 A30 30 300 0 0 60 30 A30 30 35 0 0 30 60 A30 30 250 0 0 0 30Z"
             fill=${colours.primaryColour}
           />
         </svg>
@@ -74,13 +74,13 @@ function getCardBackStyle(type: CardBackType) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="60"
+          width="48"
           height="30"
         >
           <defs>
             <rect
               id="r"
-              width="30"
+              width="24"
               height="15"
               fill=${colours.primaryColour}
               stroke-width="2.5"
@@ -94,26 +94,26 @@ function getCardBackStyle(type: CardBackType) {
             </g>
           </defs>
           <use xlink:href="#p" transform="translate(0 -25) skewY(40)" />
-          <use xlink:href="#p" transform="translate(30 0) skewY(-40)" />
+          <use xlink:href="#p" transform="translate(24 0) skewY(-40)" />
         </svg>
       `;
     case CardBackType.blueprint:
       return html`
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-          <rect width="100" height="100" fill=${colours.primaryColour} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect width="30" height="30" fill=${colours.primaryColour} />
           <g fill=${colours.secondaryColourHovered}>
-            <rect width="100" height="1" y="20" />
-            <rect width="100" height="1" y="40" />
+            <rect width="100" height="1" y="15" />
+            <rect width="100" height="1" y="30" />
+            <rect width="100" height="1" y="45" />
             <rect width="100" height="1" y="60" />
-            <rect width="100" height="1" y="80" />
-            <rect width="1" height="100" x="20" />
-            <rect width="1" height="100" x="40" />
+            <rect width="1" height="100" x="15" />
+            <rect width="1" height="100" x="30" />
+            <rect width="1" height="100" x="45" />
             <rect width="1" height="100" x="60" />
-            <rect width="1" height="100" x="80" />
           </g>
           <rect
-            width="100"
-            height="100"
+            width="30"
+            height="30"
             fill="none"
             stroke-width="2"
             stroke=${colours.secondaryColour}
