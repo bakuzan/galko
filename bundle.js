@@ -226,7 +226,7 @@ const rt=t=>e=>"function"==typeof e?((t,e)=>(window.customElements.define(t,e),e
       <a class="${t}" href="${e}" @click=${this.handleClick}>
         <slot></slot>
       </a>
-    `}handleClick(t){if(function(t){if(t.metaKey||t.altKey||t.ctrlKey||t.shiftKey)return;if(t.defaultPrevented)return;if(void 0!==t.button&&0!==t.button)return;const e=t.currentTarget;if(e&&e.getAttribute){const t=e.getAttribute("target")||"";if(/\b_blank\b/i.test(t))return}return t.preventDefault(),!0}(t)){const t=this.resolveLocation();ft.push(t)}}resolveLocation(){return ft.guardPath(`${ft.base}${this.href}`)}};yt([nt({type:String})],bt.prototype,"href",void 0),yt([nt({type:Boolean})],bt.prototype,"buttonise",void 0),bt=yt([rt("glk-router-link")],bt);var vt,xt=dt`
+    `}handleClick(t){if(function(t){if(t.metaKey||t.altKey||t.ctrlKey||t.shiftKey)return;if(t.defaultPrevented)return;if(void 0!==t.button&&0!==t.button)return;const e=t.currentTarget;if(e&&e.getAttribute){const t=e.getAttribute("target")||"";if(/\b_blank\b/i.test(t))return}return t.preventDefault(),!0}(t)){const t=this.resolveLocation();ft.push(t)}}resolveLocation(){const t=this.href.startsWith(ft.base)?this.href:`${ft.base}${this.href}`;return ft.guardPath(t)}};yt([nt({type:String})],bt.prototype,"href",void 0),yt([nt({type:Boolean})],bt.prototype,"buttonise",void 0),bt=yt([rt("glk-router-link")],bt);var vt,xt=dt`
   @keyframes growth {
     0% {
       transform: scale(0);
