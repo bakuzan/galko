@@ -24,8 +24,14 @@ class Router {
     this.listenToPopState();
   }
 
+  get base() {
+    return this.baseUrl;
+  }
+
   get currentRoute() {
-    const path = `/${window.location.pathname.replace(this.baseUrl, '')}`;
+    const path = this.guardPath(
+      `/${window.location.pathname.replace(this.baseUrl, '')}`
+    );
 
     return this.appRoutes.find((x) => x.url === path);
   }
@@ -36,24 +42,42 @@ class Router {
 
   public push(location: string) {
     const fromRoute = this.currentRoute;
-    const toRoute = this.appRoutes.find((x) => x.url === location);
-
+    const routeUrl = this.guardPath(location.replace(this.baseUrl, ''));
+    const toRoute = this.appRoutes.find((x) => x.url === routeUrl);
+    console.log(location, routeUrl, toRoute);
     if (!toRoute) {
       // TODO
       // Handle unknown route ??
       return;
     }
 
-    const rawUrl = `${this.baseUrl}${location}`.replace(/\/\//g, '/');
-    const targetUrl = `${window.location.origin}${rawUrl}`;
+    const usableLocation = location.startsWith(this.baseUrl)
+      ? location
+      : `${this.baseUrl}${location}`;
+
+    const targetUrl = `${window.location.origin}${usableLocation}`;
 
     window.history.pushState(null, '', targetUrl);
     this.publishChange(toRoute, fromRoute);
   }
 
+  public guardPath(path: string) {
+    if (!path) {
+      return this.baseUrl;
+    }
+
+    let p = path.replace(/\/\//g, '/');
+    p = p.startsWith('/') ? p : `/${p}`;
+    p = p.endsWith('/') ? p.slice(0, -1) : p;
+    return p || this.baseUrl;
+  }
+
   private listenToPopState() {
-    window.onpopstate = (event) => {
-      const path = `/${window.location.pathname.replace(this.baseUrl, '')}`;
+    window.onpopstate = () => {
+      const path = this.guardPath(
+        `/${window.location.pathname.replace(this.baseUrl, '')}`
+      );
+
       const toRoute = this.appRoutes.find((x) => x.url === path);
       if (!toRoute) {
         // TODO

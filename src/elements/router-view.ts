@@ -18,7 +18,9 @@ class RouterView extends LitElement {
 
     if (!route) {
       return html`
-        Route not found.
+        <div style="padding: 10px">
+          Route not found.
+        </div>
       `;
     }
 

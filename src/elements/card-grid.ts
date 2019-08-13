@@ -9,22 +9,25 @@ import './card';
 @customElement('glk-card-grid')
 class CardGrid extends LitElement {
   static get styles() {
-    return css`
-      :host {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 103px);
-        grid-auto-rows: 1fr;
-        grid-gap: 16px;
-        padding: 16px;
-        width: calc(100% - 32px);
+    return [
+      css`
+        :host {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, 103px);
+          grid-auto-rows: 1fr;
+          grid-gap: 16px;
+          padding: 16px;
+          width: calc(100% - 32px);
 
-        /* Centering */
-        justify-content: center;
-        min-width: 400px;
-        max-width: 95%;
-        margin: auto;
-      }
-    `;
+          /* Centering */
+          justify-content: center;
+          min-width: 400px;
+          max-width: 95%;
+          margin: auto;
+        }
+      `,
+      baseAnimationStyle
+    ];
   }
 
   @property({ type: Array })
@@ -51,7 +54,6 @@ class CardGrid extends LitElement {
     const hasPair = this.selected.length === 2;
 
     return html`
-      ${baseAnimationStyle}
       ${hasPair
         ? html`
             <style>

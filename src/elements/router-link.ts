@@ -32,9 +32,10 @@ class RouterLink extends LitElement {
 
   public render() {
     const cx = `router-link${this.buttonise ? ' router-link--as-button' : ''}`;
+    const href = this.resolveLocation();
 
     return html`
-      <a class="${cx}" href="${this.href}" @click=${this.handleClick}>
+      <a class="${cx}" href="${href}" @click=${this.handleClick}>
         <slot></slot>
       </a>
     `;
@@ -48,6 +49,10 @@ class RouterLink extends LitElement {
   }
 
   private resolveLocation() {
-    return this.href;
+    const href = this.href.startsWith(router.base)
+      ? this.href
+      : `${router.base}${this.href}`;
+
+    return router.guardPath(href);
   }
 }

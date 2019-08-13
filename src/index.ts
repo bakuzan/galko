@@ -3,8 +3,7 @@ import './elements/button';
 import './elements/router-link';
 import './elements/router-view';
 
-import { MediaSize } from './enums/MediaSize';
-import { mediaOn } from './utils/mediaOn';
+import router from './routes';
 
 @customElement('glk-app')
 class App extends LitElement {
@@ -47,21 +46,23 @@ class App extends LitElement {
   }
 
   public render() {
+    const baseUrl = router.base;
+
     return html`
       <main>
         <nav class="action-bar">
           <h1 class="action-bar__title">
-            <glk-router-link ?buttonise=${true} href="/"
+            <glk-router-link ?buttonise=${true} .href="${baseUrl}"
               >Galko︎</glk-router-link
             >
           </h1>
 
           <div class="flex-spacer"></div>
 
-          <glk-router-link ?buttonise=${true} href="/scores"
+          <glk-router-link ?buttonise=${true} .href=${'/scores'}
             >★︎</glk-router-link
           >
-          <glk-router-link ?buttonise=${true} href="/options"
+          <glk-router-link ?buttonise=${true} .href=${'/options'}
             >⚙︎</glk-router-link
           >
         </nav>

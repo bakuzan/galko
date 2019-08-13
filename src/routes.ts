@@ -1,6 +1,8 @@
 import { html } from 'lit-element';
 import Router from './utils/Router';
 
+const baseUrl = process.env.NODE_ENV === 'production' ? '/galko' : '/';
+
 const router = new Router(
   [
     {
@@ -9,7 +11,7 @@ const router = new Router(
         html`
           <glk-home></glk-home>
         `,
-      url: '/'
+      url: baseUrl
     },
     {
       name: 'options',
@@ -28,7 +30,7 @@ const router = new Router(
       url: '/scores'
     }
   ],
-  process.env.NODE_ENV === 'production' ? '/galko' : '/'
+  baseUrl
 );
 
 export default router;
