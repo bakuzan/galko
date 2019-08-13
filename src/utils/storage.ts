@@ -1,4 +1,5 @@
 import { GlkOptions } from 'interfaces/GlkOptions';
+import { GlkScores } from 'interfaces/GlkScores';
 import { CardBackType } from '../enums/CardBackType';
 
 export class Storage<T> {
@@ -40,4 +41,8 @@ export const optsStore = new Storage<GlkOptions>('glkOptions', {
   cardBack: CardBackType.subtleDots,
   hideOnMatch: true,
   startingPairs: 15
+});
+
+export const scoreStore = new Storage<GlkScores>('glkScores', {
+  history: []
 });

@@ -2,6 +2,7 @@ import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 
 import { CardBackType } from './enums/CardBackType';
+import router from './routes';
 import floatLabel from './style/floatLabel';
 import { separateAndCapitalise } from './utils/capitalise';
 import { optsStore } from './utils/storage';
@@ -118,7 +119,7 @@ class Options extends LitElement {
 
     return html`
       <div class="options">
-        <h1 class="options__title">Options</h1>
+        <h2 class="options__title">Options</h2>
         <form @submit=${this.handleSave}>
           <div class="glk-control has-float-label">
             <label for="startingPairs">Starting Pairs</label>
@@ -207,7 +208,6 @@ class Options extends LitElement {
       startingPairs: this.startingPairs
     });
 
-    const event = new CustomEvent('close');
-    this.dispatchEvent(event);
+    router.push('/');
   }
 }

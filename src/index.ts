@@ -1,14 +1,9 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
-import './elements/card-grid';
-import './elements/streak';
-import './options';
+import './elements/router-link';
+import './elements/router-view';
 
 import { MediaSize } from './enums/MediaSize';
-import { Card } from './interfaces/Card';
-import { CardFlip } from './interfaces/CardFlip';
-import getData from './utils/characters';
-import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
 
 @customElement('glk-app')
@@ -31,28 +26,16 @@ class App extends LitElement {
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
         box-sizing: border-box;
       }
-
-      .content {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 51px); /* account for action-bar */
-      }
-      .content__streak {
-        display: flex;
-        justify-content: flex-end;
-        min-height: 46px;
-        margin-right: 15px;
+      .action-bar__title {
+        font-size: 1.25rem;
+        margin: 5px 0;
       }
 
-      .summary {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: var(--secondary-colour);
-        color: var(--secondary-contrast);
-        padding: 5px;
-        margin: 10px 5px;
-        white-space: pre-line;
+      glk-router-view {
+        padding: 0 5px;
+      }
+      glk-router-link {
+        font-size: 1.25rem;
       }
 
       /* Helpers */
@@ -60,236 +43,30 @@ class App extends LitElement {
         display: flex;
         flex: 1;
       }
-
-      /* Responsive */
-      ${mediaOn(
-        MediaSize.XS,
-        css`
-          .action-bar {
-            flex-direction: column;
-          }
-          .action-bar > * {
-            margin: 5px 0;
-          }
-          .flex-spacer {
-            display: none;
-          }
-        `
-      )}
     `;
   }
-
-  @property({ type: Array })
-  public streakProgression: number[] = [];
-
-  @property({ type: Boolean })
-  private showOptions = false;
-
-  @property({ type: Number })
-  private timer: number = 0;
-
-  @property({ type: Boolean })
-  private inGame = false;
-
-  @property({ type: String })
-  private timeElapsed = '00m 00s';
-
-  @property({ type: Array })
-  private gameSummary: string[] = [];
-
-  @property({ type: Boolean })
-  private hasMatch = false;
-
-  @property({ type: Array })
-  private pairs: string[] = [];
-
-  @property({ type: Array })
-  private choices: string[] = [];
-
-  @property({ type: Array })
-  private cards: Card[] = [];
 
   public render() {
-    const pLen = this.pairs.length;
-    const pairCount = pLen ? pLen / 2 : 0;
-    const hasSummary = this.gameSummary.length > 0;
-    const currentStreak = this.streakProgression.slice(0).pop() || 0;
-
     return html`
       <main>
-        <div class="action-bar">
-          ${this.inGame
-            ? html`
-                <div>Time: ${this.timeElapsed}</div>
-              `
-            : ''}
-          <div class="flex-spacer"></div>
-          ${!this.showOptions
-            ? html`
-                <div>
-                  <glk-button
-                    primary
-                    ?disabled=${this.inGame}
-                    @press="${this.newGame}"
-                    >New game</glk-button
-                  >
-                  <glk-button
-                    primary
-                    ?disabled=${!this.inGame}
-                    @press="${() => this.endGame(false)}"
-                    >Quit game</glk-button
-                  >
-                </div>
-              `
-            : ''}
+        <nav class="action-bar">
+          <h1 class="action-bar__title">
+            <glk-router-link ?buttonise=${true} href="/"
+              >Galko︎</glk-router-link
+            >
+          </h1>
 
           <div class="flex-spacer"></div>
-          ${this.inGame
-            ? html`
-                <div>${pairCount} Pairs found</div>
-              `
-            : ''}
-          ${!this.inGame
-            ? html`
-                <glk-button icon @press=${this.handleOptions}>⚙︎</glk-button>
-              `
-            : ''}
-        </div>
-        ${!this.showOptions
-          ? html`
-              <div class="content">
-                ${hasSummary
-                  ? html`
-                      <div class="summary">
-                        ${this.gameSummary.map(
-                          (x) =>
-                            html`
-                              <div>${x}</div>
-                            `
-                        )}
-                      </div>
-                    `
-                  : ''}
-                ${this.inGame
-                  ? html`
-                      <div class="content__streak">
-                        <glk-streak streak=${currentStreak}></glk-streak>
-                      </div>
-                    `
-                  : ''}
-                <glk-card-grid
-                  .cards=${this.cards}
-                  .selected=${this.choices}
-                  .removed=${this.pairs}
-                  ?hasMatch=${this.hasMatch}
-                  @flipped="${this.onCardFlip}"
-                >
-                </glk-card-grid>
-              </div>
-            `
-          : html`
-              <glk-options
-                @close=${() => (this.showOptions = false)}
-              ></glk-options>
-            `}
+
+          <glk-router-link ?buttonise=${true} href="/scores"
+            >★︎</glk-router-link
+          >
+          <glk-router-link ?buttonise=${true} href="/options"
+            >⚙︎</glk-router-link
+          >
+        </nav>
+        <glk-router-view></glk-router-view>
       </main>
     `;
-  }
-
-  @property({ type: Function })
-  private unsubTimer: () => string = () => '';
-
-  private handleOptions() {
-    this.showOptions = true;
-    this.cards = [];
-    this.gameSummary = [];
-    this.choices = [];
-    this.streakProgression = [];
-  }
-
-  private newGame() {
-    this.gameSummary = [];
-    this.streakProgression = [];
-    this.choices = [];
-    this.cards = getData();
-    this.inGame = true;
-    this.unsubTimer = GameTimer.subscribe((time) => (this.timeElapsed = time));
-  }
-
-  private endGame(success = false) {
-    const timeElapsed = this.unsubTimer();
-    const pairs = this.pairs.length / 2;
-    const longestStreak = Math.max(...this.streakProgression, 0);
-
-    this.inGame = false;
-    this.pairs = [];
-
-    // Show all cards
-    this.choices = this.cards.map((x) => x.id);
-    this.gameSummary = [
-      success ? `You found all the pairs!` : 'Quitters always quit.',
-      `${pairs} pairs found in ${timeElapsed}`,
-      `${longestStreak} was your longest match streak`
-    ];
-  }
-
-  private onCardFlip(event: CustomEvent<CardFlip>) {
-    if (this.choices.length === 2) {
-      // Prevent interaction while card states are reset
-      return;
-    }
-
-    const data = event.detail;
-    const turnFaceUp = !this.choices.includes(data.cardId);
-
-    if (turnFaceUp) {
-      this.choices = [...this.choices, data.cardId];
-      this.checkCards();
-    }
-  }
-
-  private checkCards() {
-    if (this.choices.length !== 2) {
-      return;
-    }
-
-    const characterIds = this.choices.map((x) => {
-      const card = this.cards.find((c) => c.id === x);
-      if (card) {
-        return card.characterId;
-      }
-    });
-
-    const currentStreak = this.streakProgression.slice(-1).pop() || 0;
-    const isMatch = new Set(characterIds).size === 1;
-    this.hasMatch = isMatch;
-
-    // Reset or Update based on isMatch result
-    clearTimeout(this.timer);
-    this.timer = window.setTimeout(() => {
-      if (isMatch) {
-        this.pairs = [...this.pairs, ...this.choices];
-        this.streakProgression = [
-          ...this.streakProgression.slice(0, -1),
-          currentStreak + 1
-        ];
-      } else if (currentStreak > 0) {
-        this.streakProgression = [...this.streakProgression, 0];
-      }
-
-      // Reset
-      this.choices = [];
-      this.hasMatch = false;
-      this.checkGameState();
-    }, 1500);
-  }
-
-  private checkGameState() {
-    const completeGame =
-      this.cards.length === this.pairs.length && this.pairs.length !== 0;
-
-    if (completeGame) {
-      this.endGame(true);
-    }
   }
 }
