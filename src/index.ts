@@ -2,6 +2,7 @@ import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 import './elements/router-link';
 import './elements/router-view';
+import './elements/tooltip';
 
 import router from './routes';
 
@@ -11,6 +12,7 @@ class App extends LitElement {
     return css`
       :host,
       main {
+        --action-bar-height: 51px;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -20,7 +22,7 @@ class App extends LitElement {
         display: flex;
         align-items: center;
         background-color: var(--primary-colour);
-        min-height: 51px;
+        min-height: var(--action-bar-height);
         padding: 10px 15px;
         box-shadow: 1px 1px 2px 2px var(--shadow-colour);
         box-sizing: border-box;
@@ -52,19 +54,25 @@ class App extends LitElement {
       <main>
         <nav class="action-bar">
           <h1 class="action-bar__title">
-            <glk-router-link ?buttonise=${true} .href="${baseUrl}"
-              >Galko︎</glk-router-link
-            >
+            <glk-tooltip .text=${'Home'}>
+              <glk-router-link ?buttonise=${true} .href="${baseUrl}"
+                >Galko︎</glk-router-link
+              >
+            </glk-tooltip>
           </h1>
 
           <div class="flex-spacer"></div>
 
-          <glk-router-link ?buttonise=${true} .href=${'/scores'}
-            >★︎</glk-router-link
-          >
-          <glk-router-link ?buttonise=${true} .href=${'/options'}
-            >⚙︎</glk-router-link
-          >
+          <glk-tooltip .text=${'Scores'}>
+            <glk-router-link ?buttonise=${true} .href=${'/scores'}
+              >★︎</glk-router-link
+            >
+          </glk-tooltip>
+          <glk-tooltip .text=${'Options'}>
+            <glk-router-link ?buttonise=${true} .href=${'/options'}
+              >⚙︎</glk-router-link
+            >
+          </glk-tooltip>
         </nav>
         <glk-router-view></glk-router-view>
       </main>

@@ -2,26 +2,31 @@ import pad from './pad';
 
 class GameTimer {
   get time() {
-    const mins = Math.floor(this.gameTime / 60);
-    const secs = this.gameTime % 60;
-
-    return `${pad(mins, 2)}m ${pad(secs, 2)}s`;
+    return this.formatTime(this.gameTime);
   }
 
   get isPaused() {
     return this.paused;
   }
+
   private interval = 0;
   private paused = true;
   private gameTime = 0;
+
+  public formatTime(time: number): string {
+    const mins = Math.floor(time / 60);
+    const secs = time % 60;
+
+    return `${pad(mins, 2)}m ${pad(secs, 2)}s`;
+  }
 
   public subscribe(fn: (time: string) => void) {
     this.callback = fn;
     this.reset();
     this.start();
 
-    return (): string => {
-      const time = this.time;
+    return (): number => {
+      const time = this.gameTime;
       this.callback = () => null;
       this.reset();
 
@@ -47,6 +52,7 @@ class GameTimer {
     this.stop();
     this.gameTime = 0;
   }
+
   private callback: (time: string) => void = () => null;
 }
 

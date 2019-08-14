@@ -1,5 +1,5 @@
+import { GameResult } from 'interfaces/GameResult';
 import { GlkOptions } from 'interfaces/GlkOptions';
-import { GlkScores } from 'interfaces/GlkScores';
 import { CardBackType } from '../enums/CardBackType';
 
 export class Storage<T> {
@@ -14,12 +14,25 @@ export class Storage<T> {
   public get(): T {
     const item = localStorage.getItem(this.storeName) || '';
     const values = item ? JSON.parse(item) : this.defaultValue;
-    return { ...this.defaultValue, ...values };
+    const result =
+      this.defaultValue instanceof Array
+        ? [...this.defaultValue, ...values]
+        : { ...this.defaultValue, ...values };
+
+    return result;
   }
 
-  public set(mergeValues: object): T {
+  public set(mergeValues: object | T): T {
     const values = this.get();
-    const updated = { ...values, ...mergeValues } as T;
+    let updated: any;
+
+    if (mergeValues instanceof Array) {
+      const v = values instanceof Array ? values : [values];
+      updated = [...v, ...mergeValues] as T[];
+    } else {
+      updated = { ...values, ...mergeValues } as T;
+    }
+
     localStorage.setItem(this.storeName, JSON.stringify(updated));
     return updated;
   }
@@ -43,6 +56,4 @@ export const optsStore = new Storage<GlkOptions>('glkOptions', {
   startingPairs: 15
 });
 
-export const scoreStore = new Storage<GlkScores>('glkScores', {
-  history: []
-});
+export const scoreStore = new Storage<GameResult[]>('glkScores', []);

@@ -9,6 +9,7 @@ import { CardFlip } from './interfaces/CardFlip';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
+import { scoreStore } from './utils/storage';
 
 const smallStyles = css`
   .game-bar {
@@ -42,18 +43,19 @@ class Home extends LitElement {
   static get styles() {
     return css`
       :host {
+        --even-game-bar-width: 211px;
+        --game-bar-height: 56px;
+
         display: flex;
         flex-direction: column;
-        height: calc(100vh - 51px); /* account for action-bar */
-
-        --even-game-bar-width: 211px;
+        min-height: calc(100vh - var(--action-bar-height));
       }
 
       .game-bar {
         display: flex;
         align-items: center;
-        min-height: 51px;
-        padding: 10px;
+        min-height: var(--game-bar-height);
+        padding: 5px;
         box-sizing: border-box;
       }
       .game-bar__data {
@@ -65,7 +67,9 @@ class Home extends LitElement {
       .content {
         display: flex;
         flex-direction: column;
-        height: calc(100% - 51px); /* account for game-bar */
+        min-height: calc(
+          100vh - var(--action-bar-height) - var(--game-bar-height)
+        );
       }
       .content__streak {
         display: flex;
@@ -196,7 +200,7 @@ class Home extends LitElement {
   }
 
   @property({ type: Function })
-  private unsubTimer: () => string = () => '';
+  private unsubTimer: () => number = () => 0;
 
   private handleOptions() {
     this.cards = [];
@@ -215,7 +219,7 @@ class Home extends LitElement {
   }
 
   private endGame(success = false) {
-    const timeElapsed = this.unsubTimer();
+    const time = this.unsubTimer();
     const pairs = this.pairs.length / 2;
     const longestStreak = Math.max(...this.streakProgression, 0);
 
@@ -226,9 +230,20 @@ class Home extends LitElement {
     this.choices = this.cards.map((x) => x.id);
     this.gameSummary = [
       success ? `You found all the pairs!` : 'Quitters always quit.',
-      `${pairs} pairs found in ${timeElapsed}`,
+      `${pairs} pairs found in ${GameTimer.formatTime(time)}`,
       `${longestStreak} was your longest match streak`
     ];
+
+    if (success) {
+      scoreStore.set([
+        {
+          datetime: new Date().getTime(),
+          longestStreak,
+          pairs,
+          timeElapsed: time
+        }
+      ]);
+    }
   }
 
   private onCardFlip(event: CustomEvent<CardFlip>) {
