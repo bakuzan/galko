@@ -1,5 +1,5 @@
-import { GameResult } from 'interfaces/GameResult';
-import { GlkOptions } from 'interfaces/GlkOptions';
+import { GameResult } from '@/interfaces/GameResult';
+import { GlkOptions } from '@/interfaces/GlkOptions';
 import { CardBackType } from '../enums/CardBackType';
 
 export class Storage<T> {
@@ -26,9 +26,9 @@ export class Storage<T> {
     const values = this.get();
     let updated: any;
 
-    if (mergeValues instanceof Array) {
-      const v = values instanceof Array ? values : [values];
-      updated = [...v, ...mergeValues] as T[];
+    if (values instanceof Array) {
+      const v = mergeValues instanceof Array ? mergeValues : [mergeValues];
+      updated = [...values, ...v] as T[];
     } else {
       updated = { ...values, ...mergeValues } as T;
     }

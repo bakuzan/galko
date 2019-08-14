@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "target": "es2015",
     "module": "es6",
     "outDir": "./dist",
@@ -12,6 +12,11 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./__tests__"]
 }

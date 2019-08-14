@@ -1,4 +1,4 @@
-import { css, customElement, html, LitElement, property } from 'lit-element';
+import { css, customElement, html, LitElement } from 'lit-element';
 import './elements/button';
 import './elements/router-link';
 import './elements/router-view';

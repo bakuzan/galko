@@ -46,6 +46,9 @@ module.exports = (env) => {
       ]
     },
     resolve: {
+      alias: {
+        '@/*': path.join(__dirname, './src/')
+      },
       extensions: ['.tsx', '.ts', '.js']
     },
     output: {

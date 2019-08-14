@@ -1,4 +1,4 @@
-import { CardBackType } from 'enums/CardBackType';
+import { CardBackType } from '@/enums/CardBackType';
 
 export interface GlkOptions {
   cardBack: CardBackType;
