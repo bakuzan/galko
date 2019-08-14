@@ -4,7 +4,8 @@ declare class GameTimer {
     private interval;
     private paused;
     private gameTime;
-    subscribe(fn: (time: string) => void): () => string;
+    formatTime(time: number): string;
+    subscribe(fn: (time: string) => void): () => number;
     start(): void;
     stop(): void;
     reset(): void;
