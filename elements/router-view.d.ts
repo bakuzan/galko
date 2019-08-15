@@ -1,3 +1,3 @@
-import '../home';
-import '../options';
-import '../scores';
+import '@/home';
+import '@/options';
+import '@/scores';

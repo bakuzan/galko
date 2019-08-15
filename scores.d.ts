@@ -1,1 +1,1 @@
-export {};
+import './elements/sort-icon';

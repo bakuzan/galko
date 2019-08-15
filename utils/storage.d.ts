@@ -1,5 +1,5 @@
-import { GameResult } from 'interfaces/GameResult';
-import { GlkOptions } from 'interfaces/GlkOptions';
+import { GameResult } from '@/interfaces/GameResult';
+import { GlkOptions } from '@/interfaces/GlkOptions';
 export declare class Storage<T> {
     private storeName;
     private defaultValue;

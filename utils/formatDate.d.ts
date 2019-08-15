@@ -1,1 +1,1 @@
-export default function formatDate(t: number): string;
+export default function formatDate(t?: number | string | Date): string;
