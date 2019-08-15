@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "baseUrl": ".",
-    "target": "es2015",
+    "target": "es2019",
     "module": "es6",
     "outDir": "./dist",
     "rootDir": "./src",

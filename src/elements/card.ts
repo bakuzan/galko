@@ -1,8 +1,8 @@
 import { CardFlip } from '@/interfaces/CardFlip';
 import { customElement, html, LitElement, property } from 'lit-element';
 
-import style from '../style/card';
-import { optsStore } from '../utils/storage';
+import style from '@/style/card';
+import { optsStore } from '@/utils/storage';
 import './card-back';
 
 @customElement('glk-card')

@@ -1,5 +1,5 @@
+import { MediaSize } from '@/enums/MediaSize';
 import { css, CSSResult } from 'lit-element';
-import { MediaSize } from '../enums/MediaSize';
 
 const screenXS = 480;
 const screenSM = 768;

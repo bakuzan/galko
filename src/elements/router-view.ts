@@ -1,8 +1,8 @@
+import '@/home';
+import '@/options';
+import router from '@/routes';
+import '@/scores';
 import { customElement, html, LitElement, property } from 'lit-element';
-import '../home';
-import '../options';
-import router from '../routes';
-import '../scores';
 
 @customElement('glk-router-view')
 class RouterView extends LitElement {

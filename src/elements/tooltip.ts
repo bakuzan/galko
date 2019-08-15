@@ -1,9 +1,9 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 
-import { MediaSize } from '../enums/MediaSize';
-import cx from '../utils/classes';
-import { mediaOn } from '../utils/mediaOn';
-import objToString from '../utils/objToString';
+import { MediaSize } from '@/enums/MediaSize';
+import cx from '@/utils/classes';
+import { mediaOn } from '@/utils/mediaOn';
+import objToString from '@/utils/objToString';
 
 @customElement('glk-tooltip')
 class Tooltip extends LitElement {

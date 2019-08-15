@@ -1,5 +1,5 @@
+import { CardBackType } from '@/enums/CardBackType';
 import { html } from 'lit-html';
-import { CardBackType } from '../enums/CardBackType';
 import svgToBase64Image from './svgToBase64Image';
 
 const colours = {

@@ -2,9 +2,11 @@ import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 
 import { CardBackType } from './enums/CardBackType';
+import { MediaSize } from './enums/MediaSize';
 import router from './routes';
 import floatLabel from './style/floatLabel';
 import { separateAndCapitalise } from './utils/capitalise';
+import { mediaOn } from './utils/mediaOn';
 import { optsStore } from './utils/storage';
 
 const CARD_BACK_OPTIONS = Object.keys(CardBackType);
@@ -23,6 +25,26 @@ class Options extends LitElement {
           font-size: 1.5rem;
           margin: 1rem 0;
         }
+
+        form {
+          width: 50%;
+        }
+        ${mediaOn(
+          MediaSize.SM,
+          css`
+            form {
+              width: 75%;
+            }
+          `
+        )}
+        ${mediaOn(
+          MediaSize.XS,
+          css`
+            form {
+              width: 100%;
+            }
+          `
+        )}
 
         .glk-control {
           display: flex;

@@ -1,10 +1,12 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
-
-import { Card } from '../interfaces/Card';
-import baseAnimationStyle from '../style/cardGrid';
-import getCardBackground from '../utils/getCardBackground';
-import { optsStore } from '../utils/storage';
 import './card';
+
+import { MediaSize } from '@/enums/MediaSize';
+import { Card } from '@/interfaces/Card';
+import baseAnimationStyle from '@/style/cardGrid';
+import getCardBackground from '@/utils/getCardBackground';
+import { mediaOn } from '@/utils/mediaOn';
+import { optsStore } from '@/utils/storage';
 
 @customElement('glk-card-grid')
 class CardGrid extends LitElement {
@@ -25,6 +27,17 @@ class CardGrid extends LitElement {
           max-width: 95%;
           margin: auto;
         }
+
+        ${mediaOn(
+          MediaSize.XS,
+          css`
+            :host {
+              justify-content: flex-start;
+              grid-gap: 6px;
+              padding: 4px;
+            }
+          `
+        )}
       `,
       baseAnimationStyle
     ];

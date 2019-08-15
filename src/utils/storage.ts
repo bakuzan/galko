@@ -1,6 +1,6 @@
+import { CardBackType } from '@/enums/CardBackType';
 import { GameResult } from '@/interfaces/GameResult';
 import { GlkOptions } from '@/interfaces/GlkOptions';
-import { CardBackType } from '../enums/CardBackType';
 
 export class Storage<T> {
   private storeName: string = '';

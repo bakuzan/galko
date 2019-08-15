@@ -1,6 +1,6 @@
 /*tslint:disable:no-bitwise*/
-import { Card } from '../interfaces/Card';
-import { Character } from '../interfaces/Character';
+import { Card } from '@/interfaces/Card';
+import { Character } from '@/interfaces/Character';
 
 import generateUniqueId from './generateUniqueId';
 import shuffleArray from './shuffleArray';

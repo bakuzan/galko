@@ -1,4 +1,5 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
+import './elements/sort-icon';
 
 import { MediaSize } from './enums/MediaSize';
 import { GameResultView } from './interfaces/GameResult';
@@ -7,6 +8,8 @@ import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
 import padNumber from './utils/pad';
 import { scoreStore } from './utils/storage';
+
+type ResultField = 'timeElapsed' | 'datetime' | 'pairs' | 'longestStreak';
 
 @customElement('glk-scores')
 class Scores extends LitElement {
@@ -32,14 +35,6 @@ class Scores extends LitElement {
           display: flex;
           justify-content: space-between;
         }
-        ${mediaOn(
-          MediaSize.XS,
-          css`
-            .history__header {
-              flex-direction: column;
-            }
-          `
-        )}
 
         .history__title {
           font-size: 1.25rem;
@@ -47,7 +42,7 @@ class Scores extends LitElement {
         }
         .history__item {
           display: grid;
-          grid-template-columns: 50px 0.25fr 50px 90px 80px;
+          grid-template-columns: 50px minmax(180px, 0.25fr) 75px 90px 80px;
           padding: 5px 0;
         }
         .history__item--no-items {
@@ -57,13 +52,59 @@ class Scores extends LitElement {
           background-color: var(--secondary-colour);
         }
 
-        /* Helpers */
-        .right {
+        .column-header {
+          display: flex;
+
+          align-items: center;
+        }
+        .column-header__button {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          height: 100%;
+          background: none;
+          padding: 8px 5px;
+          border: none;
+          text-align: left;
+          cursor: pointer;
+        }
+        .column-header__button:hover {
+          background-color: hsl(0, 0%, 95%);
+        }
+
+        .align-right {
           text-align: right;
         }
+
+        /* Repsonsive */
+        ${mediaOn(
+          MediaSize.SM,
+          css`
+            .history__item {
+              grid-template-columns: 50px 160px 75px 80px 80px;
+            }
+          `
+        )}
+        ${mediaOn(
+          MediaSize.XS,
+          css`
+            .history__header {
+              flex-direction: column;
+            }
+            .history__item {
+              grid-template-columns: 50px 120px 60px 80px 60px;
+            }
+          `
+        )}
       `
     ];
   }
+
+  @property({ type: Array })
+  private sortField: ResultField = 'timeElapsed';
+
+  @property({ type: Array })
+  private sortOrder: number = 1;
 
   @property({ type: Array })
   private history: GameResultView[] = [];
@@ -79,6 +120,12 @@ class Scores extends LitElement {
   }
 
   public render() {
+    const items = this.history.sort((a, b) => {
+      const bv = b[this.sortField];
+      const av = a[this.sortField];
+      return this.sortOrder === 1 ? av - bv : bv - av;
+    });
+
     return html`
       <section class="history">
         <header class="history__header">
@@ -93,21 +140,69 @@ class Scores extends LitElement {
               `
             : html`
                 <li class="history__item history__item--header">
-                  <div>#</div>
-                  <div>Date</div>
-                  <div class="right">Pairs</div>
-                  <div class="right">Time</div>
-                  <div class="right">Streak</div>
+                  <div class="column-header">#</div>
+                  <div class="column-header">
+                    <button
+                      type="button"
+                      class="column-header__button"
+                      @click=${() => this.handleSort('datetime')}
+                    >
+                      Date
+                      <glk-sort-icon
+                        ?show=${this.sortField === 'datetime'}
+                        .direction=${this.sortOrder}
+                      ></glk-sort-icon>
+                    </button>
+                  </div>
+                  <div class="column-header">
+                    <button
+                      type="button"
+                      class="column-header__button"
+                      @click=${() => this.handleSort('pairs')}
+                    >
+                      Pairs
+                      <glk-sort-icon
+                        ?show=${this.sortField === 'pairs'}
+                        .direction=${this.sortOrder}
+                      ></glk-sort-icon>
+                    </button>
+                  </div>
+                  <div class="column-header">
+                    <button
+                      type="button"
+                      class="column-header__button"
+                      @click=${() => this.handleSort('timeElapsed')}
+                    >
+                      Time
+                      <glk-sort-icon
+                        ?show=${this.sortField === 'timeElapsed'}
+                        .direction=${this.sortOrder}
+                      ></glk-sort-icon>
+                    </button>
+                  </div>
+                  <div class="column-header">
+                    <button
+                      type="button"
+                      class="column-header__button"
+                      @click=${() => this.handleSort('longestStreak')}
+                    >
+                      Streak
+                      <glk-sort-icon
+                        ?show=${this.sortField === 'longestStreak'}
+                        .direction=${this.sortOrder}
+                      ></glk-sort-icon>
+                    </button>
+                  </div>
                 </li>
               `}
-          ${this.history.map(
+          ${items.map(
             (item, i) => html`
               <li class="history__item">
                 <div>${this.itemNumber(i)}</div>
                 <div>${item.date}</div>
-                <div class="right">${item.pairs}</div>
-                <div class="right">${item.timeElapsedDisplay}</div>
-                <div class="right">${item.longestStreak}</div>
+                <div class="align-right">${item.pairs}</div>
+                <div class="align-right">${item.timeElapsedDisplay}</div>
+                <div class="align-right">${item.longestStreak}</div>
               </li>
             `
           )}
@@ -118,5 +213,15 @@ class Scores extends LitElement {
 
   private itemNumber(num: number): string {
     return `#${padNumber(num + 1, 3)}`;
+  }
+
+  private handleSort(field: ResultField) {
+    const toggle = this.sortField === field;
+
+    if (toggle) {
+      this.sortOrder = this.sortOrder === 1 ? -1 : 1;
+    }
+
+    this.sortField = field;
   }
 }
