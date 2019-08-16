@@ -1,6 +1,6 @@
 import generateUniqueId from './generateUniqueId';
 
-interface Route {
+export interface Route {
   name: string;
   url: string;
   render: (key: string) => any;
@@ -44,10 +44,11 @@ class Router {
     const fromRoute = this.currentRoute;
     const routeUrl = this.guardPath(location.replace(this.baseUrl, ''));
     const toRoute = this.appRoutes.find((x) => x.url === routeUrl);
-    console.log(location, routeUrl, toRoute);
+
     if (!toRoute) {
       // TODO
       // Handle unknown route ??
+      console.error('Unknown route');
       return;
     }
 
@@ -82,6 +83,7 @@ class Router {
       if (!toRoute) {
         // TODO
         // Handle unknown route ??
+        console.error('Unknown route');
         return;
       }
 
