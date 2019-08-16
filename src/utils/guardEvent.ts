@@ -1,6 +1,5 @@
 export default function guardEvent(e: MouseEvent) {
   // don't redirect with control keys
-  // const ek = e as KeyboardEvent;
   if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) {
     return;
   }
@@ -19,6 +18,7 @@ export default function guardEvent(e: MouseEvent) {
   const et = e.currentTarget as HTMLElement;
   if (et && et.getAttribute) {
     const target = et.getAttribute('target') || '';
+
     if (/\b_blank\b/i.test(target)) {
       return;
     }
