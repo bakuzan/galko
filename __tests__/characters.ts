@@ -21,10 +21,14 @@ describe('characters', () => {
     expect(storeSpy).toHaveBeenCalled();
   });
 
-  it('should shuffle the character pre and post pairing', () => {
+  it('should shuffle each character images and the character pre/post pairing', () => {
+    const forEachCharacterImages = 15;
+    const characterPrePostPairing = 2;
+    const expected = forEachCharacterImages + characterPrePostPairing;
+
     getCharacters();
 
-    expect(shuffleArray).toHaveBeenCalledTimes(2);
+    expect(shuffleArray).toHaveBeenCalledTimes(expected);
   });
 
   it('should generate a unique id for each card', () => {
