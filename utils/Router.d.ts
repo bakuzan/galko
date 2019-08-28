@@ -1,4 +1,4 @@
-interface Route {
+export interface Route {
     name: string;
     url: string;
     render: (key: string) => any;
