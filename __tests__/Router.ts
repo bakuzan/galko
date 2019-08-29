@@ -1,8 +1,8 @@
 import Router, { Route } from '@/utils/Router';
 
-jest.mock('@/utils/generateUniqueId', jest.fn);
+jest.mock('ayaka/generateUniqueId', jest.fn);
 
-import generateUniqueId from '@/utils/generateUniqueId';
+import generateUniqueId from 'ayaka/generateUniqueId';
 
 const DEFAULT_ROUTES = [
   {

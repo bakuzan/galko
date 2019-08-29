@@ -6,10 +6,11 @@ import './elements/streak';
 import { MediaSize } from './enums/MediaSize';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
+import { GameResult } from './interfaces/GameResult';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
-import { scoreStore } from './utils/storage';
+import { dataStore } from './utils/storage';
 
 const smallStyles = css`
   .game-bar {
@@ -103,8 +104,8 @@ class Home extends LitElement {
       }
 
       /* Responsive */
-      ${mediaOn(MediaSize.SM, smallStyles)}
       ${mediaOn(MediaSize.XS, smallStyles)}
+      ${mediaOn(MediaSize.XXS, smallStyles)}
     `;
   }
 
@@ -235,14 +236,18 @@ class Home extends LitElement {
     ];
 
     if (success) {
-      scoreStore.set([
-        {
-          datetime: new Date().getTime(),
-          longestStreak,
-          pairs,
-          timeElapsed: time
-        }
-      ]);
+      const scores = dataStore.getKey('history') as GameResult[];
+      dataStore.set({
+        history: [
+          ...scores,
+          {
+            datetime: new Date().getTime(),
+            longestStreak,
+            pairs,
+            timeElapsed: time
+          }
+        ]
+      });
     }
   }
 

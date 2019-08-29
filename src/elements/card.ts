@@ -1,6 +1,7 @@
 import { CardFlip } from '@/interfaces/CardFlip';
 import { customElement, html, LitElement, property } from 'lit-element';
 
+import { ImageSize } from '@/enums/ImageSize';
 import style from '@/style/card';
 import { optsStore } from '@/utils/storage';
 import './card-back';
@@ -30,10 +31,10 @@ class Card extends LitElement {
   public image = '';
 
   @property({ type: Number })
-  public width = 103;
+  public width = ImageSize.width;
 
   @property({ type: Number })
-  public height = 160;
+  public height = ImageSize.height;
 
   @property({ type: String })
   public cardBack = '';

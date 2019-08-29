@@ -68,6 +68,11 @@ class App extends LitElement {
               >★︎</glk-router-link
             >
           </glk-tooltip>
+          <glk-tooltip .text=${'Decks'}>
+            <glk-router-link ?buttonise=${true} .href=${'/decks'}
+              >🂠︎</glk-router-link
+            >
+          </glk-tooltip>
           <glk-tooltip .text=${'Options'}>
             <glk-router-link ?buttonise=${true} .href=${'/options'}
               >⚙︎</glk-router-link

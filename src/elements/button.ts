@@ -1,3 +1,4 @@
+import classes from '@/utils/classes';
 import { css, customElement, html, LitElement, property } from 'lit-element';
 
 @customElement('glk-button')
@@ -23,6 +24,18 @@ class Button extends LitElement {
         background-color: hsl(0, 0%, 95%);
       }
 
+      .button--icon {
+        padding: 2px 6px;
+        border-radius: 50%;
+        box-shadow: none;
+        font-size: var(--icon-font-size, 1.25rem);
+      }
+      .button--icon:hover {
+        background-color: initial;
+        box-shadow: 1px 1px 2px 0px var(--shadow-colour),
+          0px 0px 1px 0px var(--shadow-colour);
+      }
+
       .button--primary {
         background-color: var(--secondary-colour);
         color: var(--secondary-contrast);
@@ -31,20 +44,17 @@ class Button extends LitElement {
         background-color: var(--secondary-colour-hovered);
       }
 
-      .button--icon {
-        padding: 2px 8px;
-        border-radius: 50%;
-        box-shadow: none;
-        font-size: 1.25rem;
+      .button--danger {
+        background-color: var(--danger-colour);
+        color: #fff;
       }
-      .button--icon:hover {
-        background-color: initial;
-        box-shadow: 1px 1px 2px 0px var(--shadow-colour),
-          0px 0px 1px 0px var(--shadow-colour);
+      .button--danger:hover {
+        background-color: var(--danger-colour-hovered);
       }
 
       .button:disabled {
         background-color: var(--disabled-colour);
+        color: inherit;
         cursor: default;
       }
     `;
@@ -57,19 +67,21 @@ class Button extends LitElement {
   public primary = false;
 
   @property({ type: Boolean })
+  public danger = false;
+
+  @property({ type: Boolean })
   public icon = false;
 
   @property({ type: Boolean })
   public disabled = false;
 
   public render() {
-    const btnClass = [
+    const btnClass = classes(
       'button',
       this.primary && 'button--primary',
-      this.icon && 'button--icon'
-    ]
-      .filter((x) => !!x)
-      .join(' ');
+      this.icon && 'button--icon',
+      this.danger && 'button--danger'
+    );
 
     return html`
       <button

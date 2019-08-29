@@ -1,59 +1,36 @@
 import { CardBackType } from '@/enums/CardBackType';
-import { GameResult } from '@/interfaces/GameResult';
+import { GlkData } from '@/interfaces/GlkData';
 import { GlkOptions } from '@/interfaces/GlkOptions';
+import Store from 'ayaka/localStorage';
 
-export class Storage<T> {
-  private storeName: string = '';
-  private defaultValue: any = null;
-
-  constructor(storeName: string, defaultValue: T) {
-    this.storeName = storeName;
-    this.defaultValue = defaultValue;
-  }
-
-  public get(): T {
-    const item = localStorage.getItem(this.storeName) || '';
-    const values = item ? JSON.parse(item) : this.defaultValue;
-    const result =
-      this.defaultValue instanceof Array
-        ? [...this.defaultValue, ...values]
-        : { ...this.defaultValue, ...values };
-
-    return result;
-  }
-
-  public set(mergeValues: object | T): T {
-    const values = this.get();
-    let updated: any;
-
-    if (values instanceof Array) {
-      const v = mergeValues instanceof Array ? mergeValues : [mergeValues];
-      updated = [...values, ...v] as T[];
-    } else {
-      updated = { ...values, ...mergeValues } as T;
-    }
-
-    localStorage.setItem(this.storeName, JSON.stringify(updated));
-    return updated;
-  }
-
-  public replace(newValue: T): T {
-    const data = JSON.stringify(newValue);
-    localStorage.setItem(this.storeName, data);
-    return this.get();
-  }
-
-  public upgrade(...upgradeFns: Array<(data: any) => any>) {
-    const data = this.get();
-    const upgradedData = upgradeFns.reduce((upD, fn) => fn(upD), data);
-    this.replace(upgradedData);
-  }
-}
-
-export const optsStore = new Storage<GlkOptions>('glkOptions', {
+export const optsStore = new Store<GlkOptions>('glkOptions', {
   cardBack: CardBackType.subtleDots,
+  deckId: '',
   hideOnMatch: true,
   startingPairs: 15
 });
 
-export const scoreStore = new Storage<GameResult[]>('glkScores', []);
+export const dataStore = new Store<GlkData>('glkData', {
+  decks: [],
+  history: []
+});
+
+// TODO: Remove later
+dataStore.upgrade((data) => {
+  const hasHistory = data.history && data.history.length;
+  const hasDecks = data.decks && data.decks.length;
+  if (hasHistory || hasDecks) {
+    return data;
+  }
+
+  const scores = JSON.parse(localStorage.getItem('glkScores') || '[]');
+  const decks = JSON.parse(localStorage.getItem('glkDecks') || '{}');
+
+  localStorage.removeItem('glkScores');
+  localStorage.removeItem('glkDecks');
+
+  return {
+    decks: Object.keys(decks).map((k) => ({ id: k, ...decks[k] })),
+    scores
+  };
+});

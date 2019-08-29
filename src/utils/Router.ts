@@ -1,4 +1,4 @@
-import generateUniqueId from './generateUniqueId';
+import generateUniqueId from 'ayaka/generateUniqueId';
 
 export interface Route {
   name: string;
@@ -62,12 +62,13 @@ class Router {
     this.publishChange(toRoute, fromRoute);
   }
 
-  public guardPath(path: string) {
+  public guardPath(path: string, stripQuery = true) {
     if (!path) {
       return this.baseUrl;
     }
 
-    let p = path.replace(/\/\//g, '/');
+    let p = stripQuery ? path.split('?')[0] : path;
+    p = p.replace(/\/\//g, '/');
     p = p.startsWith('/') ? p : `/${p}`;
     p = p.endsWith('/') ? p.slice(0, -1) : p;
     return p || this.baseUrl;

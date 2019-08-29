@@ -10,11 +10,11 @@ jest.mock('lit-element', () => ({
 import { css } from 'lit-element';
 
 describe('mediaOn', () => {
-  it('should default to empty css result', () => {
-    const result = mediaOn(MediaSize.MD, 'test' as any) as any;
+  it('should wrap style in media query (XXS)', () => {
+    const result = mediaOn(MediaSize.XXS, 'test' as any) as any;
 
-    expect(result.includes('@media')).toBe(false);
-    expect(result.includes('test')).toBe(false);
+    expect(result.includes('@media')).toBe(true);
+    expect(result.includes('test')).toBe(true);
     expect(css).toHaveBeenCalled();
   });
 
@@ -28,6 +28,22 @@ describe('mediaOn', () => {
 
   it('should wrap style in media query (SM)', () => {
     const result = mediaOn(MediaSize.SM, 'test' as any) as any;
+
+    expect(result.includes('@media')).toBe(true);
+    expect(result.includes('test')).toBe(true);
+    expect(css).toHaveBeenCalled();
+  });
+
+  it('should wrap style in media query (MD)', () => {
+    const result = mediaOn(MediaSize.MD, 'test' as any) as any;
+
+    expect(result.includes('@media')).toBe(true);
+    expect(result.includes('test')).toBe(true);
+    expect(css).toHaveBeenCalled();
+  });
+
+  it('should wrap style in media query (LG)', () => {
+    const result = mediaOn(MediaSize.LG, 'test' as any) as any;
 
     expect(result.includes('@media')).toBe(true);
     expect(result.includes('test')).toBe(true);

@@ -2,11 +2,11 @@ import 'jest-localstorage-mock';
 
 import getCharacters from '@/utils/characters';
 
-jest.mock('@/utils/shuffleArray', () => jest.fn((l) => l));
-jest.mock('@/utils/generateUniqueId', jest.fn);
+jest.mock('ayaka/shuffleArray', () => jest.fn((l) => l));
+jest.mock('ayaka/generateUniqueId', jest.fn);
 
-import shuffleArray from '@/utils/shuffleArray';
-import generateUniqueId from '@/utils/generateUniqueId';
+import shuffleArray from 'ayaka/shuffleArray';
+import generateUniqueId from 'ayaka/generateUniqueId';
 
 describe('characters', () => {
   beforeEach(() => {

@@ -1,13 +1,15 @@
+import { separateAndCapitalise } from 'ayaka/capitalise';
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/button';
 
 import { CardBackType } from './enums/CardBackType';
 import { MediaSize } from './enums/MediaSize';
+import { Deck } from './interfaces/Deck';
 import router from './routes';
+import controlStyle from './style/control';
 import floatLabel from './style/floatLabel';
-import { separateAndCapitalise } from './utils/capitalise';
 import { mediaOn } from './utils/mediaOn';
-import { optsStore } from './utils/storage';
+import { dataStore, optsStore } from './utils/storage';
 
 const CARD_BACK_OPTIONS = Object.keys(CardBackType);
 
@@ -16,6 +18,7 @@ class Options extends LitElement {
   static get styles() {
     return [
       floatLabel,
+      controlStyle,
       css`
         :host {
           margin: 10px;
@@ -30,7 +33,7 @@ class Options extends LitElement {
           width: 50%;
         }
         ${mediaOn(
-          MediaSize.SM,
+          MediaSize.XS,
           css`
             form {
               width: 75%;
@@ -38,7 +41,7 @@ class Options extends LitElement {
           `
         )}
         ${mediaOn(
-          MediaSize.XS,
+          MediaSize.XXS,
           css`
             form {
               width: 100%;
@@ -46,70 +49,9 @@ class Options extends LitElement {
           `
         )}
 
-        .glk-control {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 10px;
-        }
-        .glk-control--checkbox {
-          display: flex;
-          min-height: 35px;
-          max-height: 45px;
-          flex: 1;
-          margin-top: 10px;
-        }
-        .glk-control__label {
-          position: relative;
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          flex: 0 1;
-          padding: 2px;
-          padding-left: 25px;
-          cursor: pointer;
-        }
-        .glk-checkbox {
-          /* For screenreader */
-          border: 0;
-          /*clip: rect(0 0 0 0);*/
-          height: 1px;
-          margin: -1px;
-          overflow: visible;
-          padding: 0;
-          position: absolute;
-          top: 1px;
-          left: 8px;
-          width: 1px;
-          -webkit-appearance: none;
-          /* For screenreader */
-          transition: all 0.3s;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .glk-checkbox::before,
-        .glk-checkbox:checked::before {
-          color: #000;
-          transition: all 0.3s;
-          cursor: pointer;
-          z-index: 10;
-        }
-        .glk-checkbox::before {
-          content: '\u2610';
-          font-size: 2em;
-          width: 20px;
-          height: 20px;
-          margin: 0 5px;
-        }
-        ,
-        .glk-checkbox:disabled::before {
-          content: '\u274c';
-          color: #666;
-          cursor: default;
-        }
-        .glk-checkbox:checked::before {
-          content: '\u2611';
-          color: #0f0;
+        .message {
+          color: var(--danger-colour);
+          margin: 10px 0;
         }
 
         .button-block {
@@ -119,25 +61,35 @@ class Options extends LitElement {
     ];
   }
 
+  @property({ type: Array })
+  public decks: Deck[] = [];
+
   @property({ type: Number })
   public startingPairs = 0;
 
   @property({ type: String })
   public cardBack = CardBackType.subtleDots;
 
+  @property({ type: String })
+  public deckId = '';
+
   @property({ type: Boolean })
   public hideOnMatch = true;
 
   public firstUpdated() {
     const options = optsStore.get();
+    this.decks = dataStore.getKey('decks') as Deck[];
 
     this.startingPairs = options.startingPairs;
     this.cardBack = options.cardBack;
     this.hideOnMatch = options.hideOnMatch;
+    this.deckId = options.deckId;
   }
 
   public render() {
-    const canSave = this.isValidForm();
+    const formValid = this.isValidForm();
+    const canSave = formValid.success;
+    const feedbackMessages = formValid.messages;
 
     return html`
       <div class="options">
@@ -159,6 +111,7 @@ class Options extends LitElement {
             <label for="cardBack">Card Back Pattern</label>
             <select
               id="cardBack"
+              name="cardBack"
               class="glk-control__input"
               @change=${this.onSelect}
             >
@@ -183,6 +136,27 @@ class Options extends LitElement {
               Hide matched pairs
             </label>
           </div>
+          <div class="glk-control has-float-label has-float-label--select">
+            <label for="deckId">Deck</label>
+            <select
+              id="deckId"
+              name="deckId"
+              class="glk-control__input"
+              @change=${this.onSelect}
+            >
+              <option value="" ?selected=${'' === this.deckId}
+                >Unrestricted</option
+              >
+              ${this.decks.map(
+                (op) => html`
+                  <option value=${op.id} ?selected=${op.id === this.deckId}
+                    >${op.name}</option
+                  >
+                `
+              )}
+            </select>
+          </div>
+
           <div class="button-block">
             <glk-button
               primary
@@ -193,6 +167,13 @@ class Options extends LitElement {
               Save
             </glk-button>
           </div>
+          ${feedbackMessages
+            ? html`
+                <div class="message">
+                  ${feedbackMessages}
+                </div>
+              `
+            : ''}
         </form>
       </div>
     `;
@@ -206,7 +187,13 @@ class Options extends LitElement {
 
   private onSelect(event: Event) {
     const t = event.target as HTMLSelectElement;
-    this.cardBack = t.value as CardBackType;
+    const field = t.name as 'cardBack' | 'deckId';
+
+    if (field === 'cardBack') {
+      this.cardBack = t.value as CardBackType;
+    } else if (field === 'deckId') {
+      this.deckId = t.value;
+    }
   }
 
   private onToggle(event: Event) {
@@ -215,17 +202,36 @@ class Options extends LitElement {
   }
 
   private isValidForm() {
-    return this.startingPairs >= 1 && this.startingPairs <= 26;
+    const messages = [];
+    const validPairs = this.startingPairs >= 1 && this.startingPairs <= 26;
+    if (!validPairs) {
+      messages.push('Starting pairs must be 1 <= n <= 26');
+    }
+
+    const deck = this.decks.find((x) => x.id === this.deckId);
+    const validDeck = !deck || deck.characterIds.length >= this.startingPairs;
+    if (!validDeck) {
+      messages.push(
+        'The deck chosen has fewer characters than the number of pairs requested.'
+      );
+    }
+
+    return {
+      messages: messages.join('\r\n'),
+      success: validPairs && validDeck
+    };
   }
 
   private handleSave(e: CustomEvent) {
     e.preventDefault();
-    if (!this.isValidForm()) {
+    const valid = this.isValidForm();
+    if (!valid.success) {
       return;
     }
 
     optsStore.set({
       cardBack: this.cardBack,
+      deckId: this.deckId,
       hideOnMatch: this.hideOnMatch,
       startingPairs: this.startingPairs
     });

@@ -28,6 +28,22 @@ const router = new Router(
           <glk-scores></glk-scores>
         `,
       url: '/scores'
+    },
+    {
+      name: 'decks',
+      render: () =>
+        html`
+          <glk-decks></glk-decks>
+        `,
+      url: '/decks'
+    },
+    {
+      name: 'decks-builder',
+      render: () =>
+        html`
+          <glk-decks-builder></glk-decks-builder>
+        `,
+      url: '/decks-builder'
     }
   ],
   baseUrl

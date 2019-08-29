@@ -29,7 +29,7 @@ class CardGrid extends LitElement {
         }
 
         ${mediaOn(
-          MediaSize.XS,
+          MediaSize.XXS,
           css`
             :host {
               justify-content: flex-start;

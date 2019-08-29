@@ -7,6 +7,12 @@ import guardEvent from '@/utils/guardEvent';
 class RouterLink extends LitElement {
   static get styles() {
     return css`
+      .router-link {
+        color: var(--link-colour);
+      }
+      .router-link:hover {
+        color: var(--link-colour-hovered);
+      }
       .router-link--as-button {
         text-decoration: none;
         color: inherit;
@@ -53,6 +59,6 @@ class RouterLink extends LitElement {
       ? this.href
       : `${router.base}${this.href}`;
 
-    return router.guardPath(href);
+    return router.guardPath(href, false);
   }
 }

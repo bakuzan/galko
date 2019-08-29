@@ -1,4 +1,4 @@
-import pad from './pad';
+import pad from 'ayaka/padNumber';
 
 class GameTimer {
   get time() {

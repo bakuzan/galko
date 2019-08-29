@@ -1,13 +1,13 @@
+import formatDateTimeForDisplay from 'ayaka/formatDateTimeForDisplay';
+import padNumber from 'ayaka/padNumber';
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/sort-icon';
 
 import { MediaSize } from './enums/MediaSize';
-import { GameResultView } from './interfaces/GameResult';
-import formatDate from './utils/formatDate';
+import { GameResult, GameResultView } from './interfaces/GameResult';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
-import padNumber from './utils/pad';
-import { scoreStore } from './utils/storage';
+import { dataStore } from './utils/storage';
 
 type ResultField = 'timeElapsed' | 'datetime' | 'pairs' | 'longestStreak';
 
@@ -78,7 +78,7 @@ class Scores extends LitElement {
 
         /* Repsonsive */
         ${mediaOn(
-          MediaSize.SM,
+          MediaSize.XS,
           css`
             .history__item {
               grid-template-columns: 50px 160px 75px 80px 80px;
@@ -86,7 +86,7 @@ class Scores extends LitElement {
           `
         )}
         ${mediaOn(
-          MediaSize.XS,
+          MediaSize.XXS,
           css`
             .history__header {
               flex-direction: column;
@@ -110,11 +110,11 @@ class Scores extends LitElement {
   private history: GameResultView[] = [];
 
   public firstUpdated() {
-    const scores = scoreStore.get();
+    const scores = dataStore.getKey('history') as GameResult[];
 
     this.history = scores.map((x) => ({
       ...x,
-      date: formatDate(x.datetime),
+      date: formatDateTimeForDisplay(x.datetime),
       timeElapsedDisplay: GameTimer.formatTime(x.timeElapsed)
     }));
   }
@@ -199,7 +199,9 @@ class Scores extends LitElement {
             (item, i) => html`
               <li class="history__item">
                 <div>${this.itemNumber(i)}</div>
-                <div>${item.date}</div>
+                <div>
+                  ${item.date}
+                </div>
                 <div class="align-right">${item.pairs}</div>
                 <div class="align-right">${item.timeElapsedDisplay}</div>
                 <div class="align-right">${item.longestStreak}</div>

@@ -53,6 +53,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
+    "ayaka": "file:../ayaka/build",
     "lit-element": "^2.2.1"
   }
 }

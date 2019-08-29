@@ -42,7 +42,7 @@ class Tooltip extends LitElement {
       }
 
       ${mediaOn(
-        MediaSize.XS,
+        MediaSize.XXS,
         css`
           .tooltip__content--fixed {
             left: 5px !important;

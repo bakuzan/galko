@@ -61,13 +61,14 @@
         }
       })(window.location);
     </script>
-    <style id="glk-vars">
+    <style>
       :root {
         --font-size: 16px;
         --font-family: 'Lucida Console', 'Courier New', monospace;
 
         --success-colour: #228b22;
-        --danger-colour: #b22222;
+        --danger-colour: #b32222;
+        --danger-colour-hovered: #d73131;
         --disabled-colour: #bbbbbb;
 
         --primary-colour: #fdd87f;
@@ -77,6 +78,9 @@
         --secondary-colour: #51c2ea;
         --secondary-colour-hovered: #2a87ca;
         --secondary-contrast: #000;
+
+        --link-colour: var(--secondary-colour-hovered);
+        --link-colour-hovered: var(--secondary-colour);
 
         --card-width: 103px;
         --card-height: 160px;
