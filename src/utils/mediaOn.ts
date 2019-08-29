@@ -52,7 +52,5 @@ export function mediaOn(key: MediaSize, style: CSSResult) {
       return sizeFn.xs(style);
     case MediaSize.XXS:
       return sizeFn.xxs(style);
-    default:
-      return css``;
   }
 }

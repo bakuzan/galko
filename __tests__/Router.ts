@@ -158,4 +158,26 @@ describe('Router', () => {
 
     expect(result).toEqual(expected);
   });
+
+  it('should return path without stripping query params', () => {
+    const expected = '/galko?query';
+
+    const router = createRouter();
+
+    const result = router.guardPath('//galko?query', false);
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should not call sub fn if unsub is called', () => {
+    const spyFn = jest.fn();
+
+    const router = createRouter();
+
+    const unsub = router.subscribe(spyFn);
+    unsub();
+    router.push('options');
+
+    expect(spyFn).not.toHaveBeenCalled();
+  });
 });

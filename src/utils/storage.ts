@@ -23,7 +23,7 @@ dataStore.upgrade((data) => {
     return data;
   }
 
-  const scores = JSON.parse(localStorage.getItem('glkScores') || '[]');
+  const history = JSON.parse(localStorage.getItem('glkScores') || '[]');
   const decks = JSON.parse(localStorage.getItem('glkDecks') || '{}');
 
   localStorage.removeItem('glkScores');
@@ -31,6 +31,6 @@ dataStore.upgrade((data) => {
 
   return {
     decks: Object.keys(decks).map((k) => ({ id: k, ...decks[k] })),
-    scores
+    history
   };
 });

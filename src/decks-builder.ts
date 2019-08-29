@@ -88,8 +88,18 @@ class DecksBuilder extends LitElement {
   @property({ type: String })
   private feedback: string = '';
 
+  @property({ type: Function })
+  private unsub!: () => void;
+
   public firstUpdated() {
-    router.subscribe(() => this.initDeckBuilder());
+    this.unsub = router.subscribe(() => this.initDeckBuilder());
+    this.initDeckBuilder();
+  }
+
+  public disconnectedCallback() {
+    if (this.unsub) {
+      this.unsub();
+    }
   }
 
   public render() {
