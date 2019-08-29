@@ -17,7 +17,7 @@ declare class Router {
     readonly currentRoute: Route | undefined;
     subscribe(fn: (update: RouteUpdate) => void): void;
     push(location: string): void;
-    guardPath(path: string): string;
+    guardPath(path: string, stripQuery?: boolean): string;
     private listenToPopState;
     private publishChange;
 }
