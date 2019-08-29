@@ -15,7 +15,7 @@ declare class Router {
     constructor(routes: Route[], baseUrl?: string);
     readonly base: string;
     readonly currentRoute: Route | undefined;
-    subscribe(fn: (update: RouteUpdate) => void): void;
+    subscribe(fn: (update: RouteUpdate) => void): () => void;
     push(location: string): void;
     guardPath(path: string, stripQuery?: boolean): string;
     private listenToPopState;
