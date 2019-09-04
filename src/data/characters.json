@@ -1719,6 +1719,22 @@
 	  "name": "Seijuurou Akashi"
 	},
 	{
+    "id": 55,
+    "image": "https://i.imgur.com/XTXriWl.jpg",
+    "images": [
+      {
+        "url": "https://i.imgur.com/ieVxXSc.jpg"
+      },
+      {
+        "url": "https://i.imgur.com/0rMkx6L.jpg"
+      },
+      {
+        "url": "https://i.imgur.com/MHyKgkl.jpg"
+      }
+    ],
+    "name": "Selvaria \"War Witch\" Bles"
+  },
+	{
 	  "id": 323,
 	  "image": "https://i.imgur.com/3u7SSaa.jpg",
 	  "images": [],
