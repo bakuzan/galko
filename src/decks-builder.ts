@@ -62,9 +62,17 @@ class DecksBuilder extends LitElement {
           padding: 5px 0;
           margin: 5px 0;
         }
+        .flex-spaced {
+          display: flex;
+          justify-content: space-between;
+        }
         .search-info {
           font-size: 0.8rem;
           line-height: 1.25;
+        }
+        .glk-control--narrow {
+          flex: unset;
+          margin: 0;
         }
       `
     ];
@@ -84,6 +92,9 @@ class DecksBuilder extends LitElement {
 
   @property({ type: String })
   private search: string = '';
+
+  @property({ type: Boolean })
+  private showOnlySelected: boolean = false;
 
   @property({ type: String })
   private feedback: string = '';
@@ -105,8 +116,11 @@ class DecksBuilder extends LitElement {
   public render() {
     const canSave = true;
     const lowerSearch = this.search.toLowerCase();
-    const filteredCharacters = characters.filter((x) =>
-      x.name.toLowerCase().includes(lowerSearch)
+    const filteredCharacters = characters.filter(
+      (x) =>
+        x.name.toLowerCase().includes(lowerSearch) &&
+        (!this.showOnlySelected ||
+          (this.showOnlySelected && this.deckCharacterIds.includes(x.id)))
     );
 
     if (this.noDeck) {
@@ -179,13 +193,26 @@ class DecksBuilder extends LitElement {
               @input=${this.onUserInput}
             />
           </div>
-          <div class="search-info">
-            <div>
-              Showing ${filteredCharacters.length} of ${characters.length}
+          <div class="flex-spaced">
+            <div class="search-info">
+              <div>
+                Showing ${filteredCharacters.length} of ${characters.length}
+              </div>
+              <div>${this.deckCharacterIds.length} selected</div>
             </div>
-            <div>${this.deckCharacterIds.length} selected</div>
+            <div class="glk-control glk-control--checkbox glk-control--narrow">
+              <label for="showOnlySelected" class="glk-control__label">
+                <input
+                  type="checkbox"
+                  id="showOnlySelected"
+                  class="glk-checkbox"
+                  ?checked=${this.showOnlySelected}
+                  @change=${this.onToggle}
+                />
+                Limited to selected only
+              </label>
+            </div>
           </div>
-
           <ul class="grid grid--standard">
             ${repeat(
               filteredCharacters,
@@ -249,6 +276,11 @@ class DecksBuilder extends LitElement {
     this.deckId = deckId;
     this.deckName = existingDeck.name;
     this.deckCharacterIds = existingDeck.characterIds;
+  }
+
+  private onToggle(event: Event) {
+    const t = event.target as HTMLInputElement;
+    this.showOnlySelected = t.checked;
   }
 
   private onUserInput(event: KeyboardEvent) {
