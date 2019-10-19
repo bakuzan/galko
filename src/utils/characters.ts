@@ -13,7 +13,7 @@ function resolveImage(x: Character) {
   return shuffleArray<string>(images).pop() as string;
 }
 
-const addId = (x: Character): Card => ({
+const mapToCard = (x: Character): Card => ({
   characterId: x.id,
   id: generateUniqueId(),
   image: x.image,
@@ -34,8 +34,11 @@ export default function getData(): Card[] {
 
   const randomCharacters = shuffleArray<Character>(sourceCharacters)
     .slice(0, opts.startingPairs)
-    .map((x) => ({ ...x, image: resolveImage(x) }));
+    .map((x) => ({
+      ...x,
+      image: resolveImage(x)
+    }));
 
   const paired = [...randomCharacters, ...randomCharacters];
-  return shuffleArray<Character>(paired).map(addId);
+  return shuffleArray<Character>(paired).map(mapToCard);
 }

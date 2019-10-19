@@ -5,4 +5,5 @@ export interface Character {
   name: string;
   image: string;
   images: CharacterImage[];
+  seriesId: number;
 }

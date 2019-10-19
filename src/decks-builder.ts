@@ -1,5 +1,6 @@
 import constructObjectFromSearchParams from 'ayaka/constructObjectFromSearchParams';
 import generateUniqueId from 'ayaka/generateUniqueId';
+import slugify from 'ayaka/slugify';
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import { repeat } from 'lit-html/directives/repeat';
 import './elements/button';
@@ -7,8 +8,8 @@ import './elements/image-cycler';
 import './elements/router-link';
 
 import characters from '@/data/characters.json';
+import series from '@/data/series.json';
 import cx from '@/utils/classes';
-import slugify from '@/utils/slugify';
 import { Character } from './interfaces/Character';
 import { Deck } from './interfaces/Deck';
 import router from './routes';
@@ -18,6 +19,11 @@ import gridStyle from './style/grid';
 import { dataStore } from './utils/storage';
 
 type DeckPageField = 'deckName' | 'search';
+
+function resolveSeriesName(seriesId: number) {
+  const item = series.find((s) => s.id === seriesId);
+  return item ? item.name : '(Unknown)';
+}
 
 @customElement('glk-decks-builder')
 class DecksBuilder extends LitElement {
@@ -81,6 +87,9 @@ class DecksBuilder extends LitElement {
   @property({ type: Boolean })
   private noDeck: boolean = false;
 
+  @property({ type: Array })
+  private characters: Array<Character & { seriesName: string }> = [];
+
   @property({ type: String })
   private deckId: string = '';
 
@@ -105,6 +114,10 @@ class DecksBuilder extends LitElement {
   public firstUpdated() {
     this.unsub = router.subscribe(() => this.initDeckBuilder());
     this.initDeckBuilder();
+    this.characters = characters.map((x) => ({
+      ...x,
+      seriesName: resolveSeriesName(x.seriesId)
+    }));
   }
 
   public disconnectedCallback() {
@@ -116,9 +129,10 @@ class DecksBuilder extends LitElement {
   public render() {
     const canSave = true;
     const lowerSearch = this.search.toLowerCase();
-    const filteredCharacters = characters.filter(
+    const filteredCharacters = this.characters.filter(
       (x) =>
-        x.name.toLowerCase().includes(lowerSearch) &&
+        (x.name.toLowerCase().includes(lowerSearch) ||
+          x.seriesName.toLowerCase().includes(lowerSearch)) &&
         (!this.showOnlySelected ||
           (this.showOnlySelected && this.deckCharacterIds.includes(x.id)))
     );
@@ -145,6 +159,7 @@ class DecksBuilder extends LitElement {
               id="deckName"
               name="deckName"
               class="glk-control__input"
+              placeholder="Enter a name for the deck"
               type="text"
               .value=${this.deckName}
               @input=${this.onUserInput}
@@ -188,6 +203,7 @@ class DecksBuilder extends LitElement {
               id="search"
               name="search"
               class="glk-control__input"
+              placeholder="Enter a character or series name to filter the character list"
               type="text"
               .value=${this.search}
               @input=${this.onUserInput}

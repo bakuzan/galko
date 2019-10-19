@@ -14,23 +14,3 @@ export const dataStore = new Store<GlkData>('glkData', {
   decks: [],
   history: []
 });
-
-// TODO: Remove later
-dataStore.upgrade((data) => {
-  const hasHistory = data.history && data.history.length;
-  const hasDecks = data.decks && data.decks.length;
-  if (hasHistory || hasDecks) {
-    return data;
-  }
-
-  const history = JSON.parse(localStorage.getItem('glkScores') || '[]');
-  const decks = JSON.parse(localStorage.getItem('glkDecks') || '{}');
-
-  localStorage.removeItem('glkScores');
-  localStorage.removeItem('glkDecks');
-
-  return {
-    decks: Object.keys(decks).map((k) => ({ id: k, ...decks[k] })),
-    history
-  };
-});

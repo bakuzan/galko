@@ -1,7 +1,7 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 
 import router from '@/routes';
-import guardEvent from '@/utils/guardEvent';
+import guardEvent from 'ayaka/guardEvent';
 
 @customElement('glk-router-link')
 class RouterLink extends LitElement {

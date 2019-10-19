@@ -1,0 +1,498 @@
+[
+  {
+    "id": 1,
+    "name": "Dagashi Kashi"
+  },
+  {
+    "id": 2,
+    "name": "Witchcraft Works"
+  },
+  {
+    "id": 3,
+    "name": "Prison School"
+  },
+  {
+    "id": 4,
+    "name": "Kill La Kill"
+  },
+  {
+    "id": 5,
+    "name": "Berserk"
+  },
+  {
+    "id": 6,
+    "name": "Noragami"
+  },
+  {
+    "id": 8,
+    "name": "Nyan Koi!"
+  },
+  {
+    "id": 9,
+    "name": "Kingdom"
+  },
+  {
+    "id": 10,
+    "name": "Cobra"
+  },
+  {
+    "id": 11,
+    "name": "Hataraku Saibou"
+  },
+  {
+    "id": 12,
+    "name": "Overlord"
+  },
+  {
+    "id": 13,
+    "name": "Monogatari"
+  },
+  {
+    "id": 14,
+    "name": "Satsuriku no Tenshi"
+  },
+  {
+    "id": 15,
+    "name": "Freezing"
+  },
+  {
+    "id": 16,
+    "name": "Gal Gohan"
+  },
+  {
+    "id": 17,
+    "name": "Bayonetta"
+  },
+  {
+    "id": 18,
+    "name": "Golden Kamuy"
+  },
+  {
+    "id": 19,
+    "name": "Blade of the Immortal"
+  },
+  {
+    "id": 20,
+    "name": "Sidonia no Kishi"
+  },
+  {
+    "id": 21,
+    "name": "One Piece"
+  },
+  {
+    "id": 22,
+    "name": "Bleach"
+  },
+  {
+    "id": 23,
+    "name": "Naruto"
+  },
+  {
+    "id": 24,
+    "name": "Fairy Tail"
+  },
+  {
+    "id": 25,
+    "name": "Mushishi"
+  },
+  {
+    "id": 27,
+    "name": "Bijin Onna Joushi Takizawa-san"
+  },
+  {
+    "id": 28,
+    "name": "Oshiete! Galko-chan"
+  },
+  {
+    "id": 29,
+    "name": "Suisei no Gargantia"
+  },
+  {
+    "id": 30,
+    "name": "Senjou no Valkyria"
+  },
+  {
+    "id": 31,
+    "name": "Yahari Ore no Seishun Love Comedy wa Machigatteiru."
+  },
+  {
+    "id": 32,
+    "name": "Kakegurui"
+  },
+  {
+    "id": 33,
+    "name": "Code Geass: Hangyaku no Lelouch"
+  },
+  {
+    "id": 34,
+    "name": "Steins;Gate"
+  },
+  {
+    "id": 35,
+    "name": "Claymore"
+  },
+  {
+    "id": 36,
+    "name": "High School DxD"
+  },
+  {
+    "id": 37,
+    "name": "Ikkitousen"
+  },
+  {
+    "id": 38,
+    "name": "Ao no Exorcist"
+  },
+  {
+    "id": 39,
+    "name": "InuYasha"
+  },
+  {
+    "id": 40,
+    "name": "Toaru Majutsu no Index"
+  },
+  {
+    "id": 41,
+    "name": "Mahou Tsukai Kurohime"
+  },
+  {
+    "id": 42,
+    "name": "Hitoribocchi no ○○ Seikatsu"
+  },
+  {
+    "id": 44,
+    "name": "City Hunter"
+  },
+  {
+    "id": 45,
+    "name": "Cat's Eye"
+  },
+  {
+    "id": 46,
+    "name": "Fate/stay night"
+  },
+  {
+    "id": 47,
+    "name": "Persona 4"
+  },
+  {
+    "id": 48,
+    "name": "JoJo no Kimyou na Bouken Part 1: Phantom Blood"
+  },
+  {
+    "id": 49,
+    "name": "JoJo no Kimyou na Bouken Part 2: Sentou Chuuryuu"
+  },
+  {
+    "id": 50,
+    "name": "JoJo no Kimyou na Bouken Part 3: Stardust Crusaders"
+  },
+  {
+    "id": 51,
+    "name": "JoJo no Kimyou na Bouken Part 4: Diamond wa Kudakenai"
+  },
+  {
+    "id": 52,
+    "name": "Persona 5"
+  },
+  {
+    "id": 53,
+    "name": "Monster Musume no Iru Nichijou"
+  },
+  {
+    "id": 54,
+    "name": "Durarara!!"
+  },
+  {
+    "id": 55,
+    "name": "Shokugeki no Souma"
+  },
+  {
+    "id": 56,
+    "name": "Boku no Hero Academia"
+  },
+  {
+    "id": 57,
+    "name": "Vagabond"
+  },
+  {
+    "id": 63,
+    "name": "Lupin III"
+  },
+  {
+    "id": 65,
+    "name": "One Punch Man"
+  },
+  {
+    "id": 66,
+    "name": "Sekirei"
+  },
+  {
+    "id": 67,
+    "name": "Dragon Ball"
+  },
+  {
+    "id": 68,
+    "name": "Rokudou no Onna-tachi"
+  },
+  {
+    "id": 69,
+    "name": "Yuragi-sou no Yuuna-san"
+  },
+  {
+    "id": 70,
+    "name": "Koe no Katachi"
+  },
+  {
+    "id": 71,
+    "name": "Blame!"
+  },
+  {
+    "id": 72,
+    "name": "Stranger: Mukou Hadan"
+  },
+  {
+    "id": 73,
+    "name": "Great Teacher Onizuka"
+  },
+  {
+    "id": 74,
+    "name": "Ginga Eiyuu Densetsu"
+  },
+  {
+    "id": 75,
+    "name": "Shigurui"
+  },
+  {
+    "id": 76,
+    "name": "Violet Evergarden"
+  },
+  {
+    "id": 77,
+    "name": "Air Master"
+  },
+  {
+    "id": 78,
+    "name": "One Outs"
+  },
+  {
+    "id": 79,
+    "name": "Keyman: The Hand of Judgement"
+  },
+  {
+    "id": 81,
+    "name": "JoJo no Kimyou na Bouken Part 5: Ougon no Kaze"
+  },
+  {
+    "id": 82,
+    "name": "Grappler Baki"
+  },
+  {
+    "id": 83,
+    "name": "Tokyo Ghoul"
+  },
+  {
+    "id": 84,
+    "name": "Highschool of the Dead"
+  },
+  {
+    "id": 85,
+    "name": "Beastars"
+  },
+  {
+    "id": 86,
+    "name": "Hinomaruzumou"
+  },
+  {
+    "id": 87,
+    "name": "Boruto"
+  },
+  {
+    "id": 88,
+    "name": "Hokuto no Ken"
+  },
+  {
+    "id": 89,
+    "name": "Detective Conan"
+  },
+  {
+    "id": 90,
+    "name": "Yowamushi Pedal"
+  },
+  {
+    "id": 91,
+    "name": "Golgo 13"
+  },
+  {
+    "id": 92,
+    "name": "Bungo Stray Dogs"
+  },
+  {
+    "id": 93,
+    "name": "Gintama"
+  },
+  {
+    "id": 97,
+    "name": "Hunter x Hunter"
+  },
+  {
+    "id": 98,
+    "name": "Baccano"
+  },
+  {
+    "id": 99,
+    "name": "Komi-san wa, Comyushou desu."
+  },
+  {
+    "id": 100,
+    "name": "Crying Freeman"
+  },
+  {
+    "id": 101,
+    "name": "Castlevania"
+  },
+  {
+    "id": 102,
+    "name": "Wakaokami wa Shougakusei!"
+  },
+  {
+    "id": 103,
+    "name": "Yancha Gal no Anjou-san"
+  },
+  {
+    "id": 104,
+    "name": "Beelzebub-jou no Okinimesu mama."
+  },
+  {
+    "id": 105,
+    "name": "Tejina-senpai"
+  },
+  {
+    "id": 106,
+    "name": "xxxHolic"
+  },
+  {
+    "id": 107,
+    "name": "Black Clover"
+  },
+  {
+    "id": 109,
+    "name": "Vinland Saga"
+  },
+  {
+    "id": 110,
+    "name": "Date A Live"
+  },
+  {
+    "id": 111,
+    "name": "Dororo"
+  },
+  {
+    "id": 112,
+    "name": "Mahou Shoujo Tokushusen Asuka"
+  },
+  {
+    "id": 113,
+    "name": "Magic Kaito"
+  },
+  {
+    "id": 114,
+    "name": "Keroro Gunsou"
+  },
+  {
+    "id": 115,
+    "name": "Mob Psycho 100"
+  },
+  {
+    "id": 116,
+    "name": "Watashi ni Tenshi ga Maiorita!"
+  },
+  {
+    "id": 117,
+    "name": "Yakusoku no Neverland"
+  },
+  {
+    "id": 118,
+    "name": "Danshi Koukousei wo Yashinaitai Onee-san no Hanashi"
+  },
+  {
+    "id": 119,
+    "name": "Dear Boys"
+  },
+  {
+    "id": 120,
+    "name": "Karakuri Circus"
+  },
+  {
+    "id": 121,
+    "name": "Kuroko no Basket"
+  },
+  {
+    "id": 122,
+    "name": "Koutetsu Tenshi Kurumi"
+  },
+  {
+    "id": 125,
+    "name": "Nurarihyon no Mago"
+  },
+  {
+    "id": 127,
+    "name": "Mouse"
+  },
+  {
+    "id": 129,
+    "name": "Emma"
+  },
+  {
+    "id": 130,
+    "name": "Death Note"
+  },
+  {
+    "id": 131,
+    "name": "Zettai Karen Children"
+  },
+  {
+    "id": 132,
+    "name": "Amano Megumi wa Sukidarake!"
+  },
+  {
+    "id": 133,
+    "name": "Grenadier"
+  },
+  {
+    "id": 134,
+    "name": "Tatakau Shisho: The Book of Bantorra"
+  },
+  {
+    "id": 135,
+    "name": "Aoki Hagane no Arpeggio: Ars Nova"
+  },
+  {
+    "id": 136,
+    "name": "Shingeki no Kyojin"
+  },
+  {
+    "id": 137,
+    "name": "Dungeon ni Deai wo Motomeru no wa Machigatteiru Darou ka"
+  },
+  {
+    "id": 139,
+    "name": "Dosanko Gyaru wa Namaramenkoi"
+  },
+  {
+    "id": 140,
+    "name": "Youjo Senki"
+  },
+  {
+    "id": 141,
+    "name": "Gegege no Kitarou (2018)"
+  },
+  {
+    "id": 142,
+    "name": "Yu-Gi-Oh! Duel Monsters"
+  },
+  {
+    "id": 144,
+    "name": "Koukaku Kidoutai"
+  }
+]
