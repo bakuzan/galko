@@ -9,7 +9,12 @@ import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
 import { dataStore } from './utils/storage';
 
-type ResultField = 'timeElapsed' | 'datetime' | 'pairs' | 'longestStreak';
+type ResultField =
+  | 'timeElapsed'
+  | 'datetime'
+  | 'pairs'
+  | 'longestStreak'
+  | 'matchAttemptsRatio';
 
 @customElement('glk-scores')
 class Scores extends LitElement {
@@ -42,7 +47,7 @@ class Scores extends LitElement {
         }
         .history__item {
           display: grid;
-          grid-template-columns: 50px minmax(180px, 0.25fr) 75px 90px 80px;
+          grid-template-columns: 50px minmax(180px, 0.25fr) 75px 90px 80px 90px;
           padding: 5px 0;
         }
         .history__item--no-items {
@@ -81,7 +86,7 @@ class Scores extends LitElement {
           MediaSize.XS,
           css`
             .history__item {
-              grid-template-columns: 50px 160px 75px 80px 80px;
+              grid-template-columns: 50px 160px 75px 80px 80px 90px;
             }
           `
         )}
@@ -92,7 +97,7 @@ class Scores extends LitElement {
               flex-direction: column;
             }
             .history__item {
-              grid-template-columns: 50px 120px 60px 80px 60px;
+              grid-template-columns: 50px 120px 60px 80px 60px 90px;
             }
           `
         )}
@@ -101,10 +106,10 @@ class Scores extends LitElement {
   }
 
   @property({ type: Array })
-  private sortField: ResultField = 'timeElapsed';
+  private sortField: ResultField = 'matchAttemptsRatio';
 
   @property({ type: Array })
-  private sortOrder: number = 1;
+  private sortOrder: number = -1;
 
   @property({ type: Array })
   private history: GameResultView[] = [];
@@ -115,6 +120,7 @@ class Scores extends LitElement {
     this.history = scores.map((x) => ({
       ...x,
       date: formatDateTimeForDisplay(x.datetime),
+      matchAttemptsRatio: x.turns !== 0 ? x.pairs / x.turns : 0.0,
       timeElapsedDisplay: GameTimer.formatTime(x.timeElapsed)
     }));
   }
@@ -193,6 +199,19 @@ class Scores extends LitElement {
                       ></glk-sort-icon>
                     </button>
                   </div>
+                  <div class="column-header">
+                    <button
+                      type="button"
+                      class="column-header__button"
+                      @click=${() => this.handleSort('matchAttemptsRatio')}
+                    >
+                      Match/Attempts Ratio
+                      <glk-sort-icon
+                        ?show=${this.sortField === 'matchAttemptsRatio'}
+                        .direction=${this.sortOrder}
+                      ></glk-sort-icon>
+                    </button>
+                  </div>
                 </li>
               `}
           ${items.map(
@@ -205,6 +224,9 @@ class Scores extends LitElement {
                 <div class="align-right">${item.pairs}</div>
                 <div class="align-right">${item.timeElapsedDisplay}</div>
                 <div class="align-right">${item.longestStreak}</div>
+                <div class="align-right">
+                  ${item.matchAttemptsRatio.toFixed(2)}
+                </div>
               </li>
             `
           )}

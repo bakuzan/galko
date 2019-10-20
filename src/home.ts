@@ -7,6 +7,7 @@ import { MediaSize } from './enums/MediaSize';
 import { Card } from './interfaces/Card';
 import { CardFlip } from './interfaces/CardFlip';
 import { GameResult } from './interfaces/GameResult';
+import { Turn } from './interfaces/Turn';
 import getData from './utils/characters';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
@@ -110,7 +111,7 @@ class Home extends LitElement {
   }
 
   @property({ type: Array })
-  public streakProgression: number[] = [];
+  public turns: Turn[] = [];
 
   @property({ type: Number })
   private timer: number = 0;
@@ -140,7 +141,7 @@ class Home extends LitElement {
     const pLen = this.pairs.length;
     const pairCount = pLen ? pLen / 2 : 0;
     const hasSummary = this.gameSummary.length > 0;
-    const currentStreak = this.streakProgression.slice(0).pop() || 0;
+    const currentStreak = this.getCurrentStreak();
     const gameData = (size: string) => html`
       <div class="${size}">
         <div class="game-bar__data">${this.timeElapsed}</div>
@@ -203,16 +204,9 @@ class Home extends LitElement {
   @property({ type: Function })
   private unsubTimer: () => number = () => 0;
 
-  private handleOptions() {
-    this.cards = [];
-    this.gameSummary = [];
-    this.choices = [];
-    this.streakProgression = [];
-  }
-
   private newGame() {
     this.gameSummary = [];
-    this.streakProgression = [];
+    this.turns = [];
     this.choices = [];
     this.cards = getData();
     this.inGame = true;
@@ -222,10 +216,12 @@ class Home extends LitElement {
   private endGame(success = false) {
     const time = this.unsubTimer();
     const pairs = this.pairs.length / 2;
-    const longestStreak = Math.max(...this.streakProgression, 0);
+    const turns = this.turns.length;
+    const longestStreak = this.getLongestStreak();
 
     this.inGame = false;
     this.pairs = [];
+    this.turns = [];
 
     // Show all cards
     this.choices = this.cards.map((x) => x.id);
@@ -244,7 +240,8 @@ class Home extends LitElement {
             datetime: new Date().getTime(),
             longestStreak,
             pairs,
-            timeElapsed: time
+            timeElapsed: time,
+            turns
           }
         ]
       });
@@ -278,7 +275,7 @@ class Home extends LitElement {
       }
     });
 
-    const currentStreak = this.streakProgression.slice(-1).pop() || 0;
+    const currentTurns = this.turns.slice(0);
     const isMatch = new Set(characterIds).size === 1;
     this.hasMatch = isMatch;
 
@@ -287,13 +284,12 @@ class Home extends LitElement {
     this.timer = window.setTimeout(() => {
       if (isMatch) {
         this.pairs = [...this.pairs, ...this.choices];
-        this.streakProgression = [
-          ...this.streakProgression.slice(0, -1),
-          currentStreak + 1
-        ];
-      } else if (currentStreak > 0) {
-        this.streakProgression = [...this.streakProgression, 0];
       }
+
+      this.turns = [
+        ...currentTurns,
+        { number: currentTurns.length + 1, isMatch }
+      ];
 
       // Reset
       this.choices = [];
@@ -309,5 +305,34 @@ class Home extends LitElement {
     if (completeGame) {
       this.endGame(true);
     }
+  }
+
+  private getCurrentStreak() {
+    const result = this.turns
+      .slice(0)
+      .reverse()
+      .reduce(
+        (p, c) => {
+          const isBroken = p.isBroken || !c.isMatch;
+          const streak = isBroken ? p.streak : p.streak + 1;
+
+          return { streak, isBroken };
+        },
+        { streak: 0, isBroken: false }
+      );
+
+    return result.streak;
+  }
+
+  private getLongestStreak() {
+    const result = this.turns.slice(0).reduce(
+      (p, c) => {
+        const streak = c.isMatch ? p.streak + 1 : 0;
+        return { streak, longest: streak > p.longest ? streak : p.longest };
+      },
+      { longest: 0, streak: 0 }
+    );
+
+    return result.longest;
   }
 }
