@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/galko/404.html"
   },
   {
-    "revision": "e29d6910b430b61a4d55",
+    "revision": "b37c98c7a933208c496a",
     "url": "/galko/bundle.js"
   },
   {
