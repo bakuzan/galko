@@ -13,6 +13,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "start": "webpack-dev-server --env.MODE=development --open",
+    "serve": "http-server dist",
     "test": "npx jest",
     "test:watch": "npx jest -o --watch",
     "test:coverage": "npx jest --coverage"
@@ -36,6 +37,7 @@
     "gh-pages": "^2.1.1",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
     "husky": "^3.0.2",
     "jest": "^24.8.0",
     "jest-localstorage-mock": "^2.4.0",
@@ -50,7 +52,9 @@
     "typescript": "^3.5.3",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-pwa-manifest": "^4.1.1",
+    "workbox-webpack-plugin": "^4.3.1"
   },
   "dependencies": {
     "ayaka": "file:../ayaka/build",

@@ -6,6 +6,15 @@ import './elements/tooltip';
 
 import router from './routes';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/galko/sw.js')
+      .then((reg) => console.log('SW registered: ', reg))
+      .catch((regError) => console.log('SW registration failed: ', regError));
+  });
+}
+
 @customElement('glk-app')
 class App extends LitElement {
   static get styles() {
