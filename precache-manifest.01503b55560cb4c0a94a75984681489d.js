@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "36545f1a2756e7e12f1cdeb84954d880",
+    "revision": "1ce7c92b3122e63cb52f2d29d4500b80",
     "url": "/galko/404.html"
   },
   {
@@ -76,11 +76,32 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/galko/home.d.ts"
   },
   {
+    "url": "/galko/icons/icon_128x128.b2ace931ef7b735c5edf2ecf3908b350.png"
+  },
+  {
+    "url": "/galko/icons/icon_192x192.9b295b5c15e4a9fb5f11048ec97e29d8.png"
+  },
+  {
+    "url": "/galko/icons/icon_256x256.1c0066129c7ff37725e8789492a9f018.png"
+  },
+  {
+    "url": "/galko/icons/icon_32x32.19aca68b017cbf699d90f1cb272da143.png"
+  },
+  {
+    "url": "/galko/icons/icon_384x384.db0d8fbb8f2efc08c53e62b2dfd3c7e9.png"
+  },
+  {
+    "url": "/galko/icons/icon_512x512.adb3d4f90830103f77fe72b2e9a77bf6.png"
+  },
+  {
+    "url": "/galko/icons/icon_96x96.4acbeeeb4dd6efbefa920b9e03c8b46d.png"
+  },
+  {
     "revision": "674e8b3316bd9662471929a35dae7252",
     "url": "/galko/index.d.ts"
   },
   {
-    "revision": "8f63dd6804e9e86a8507af897d57c387",
+    "revision": "29703517e5ae31eb61b70adfdf38fe7b",
     "url": "/galko/index.html"
   },
   {
@@ -118,6 +139,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "9e50b9f9359123737e1ca8d1f1df7334",
     "url": "/galko/interfaces\\Turn.d.ts"
+  },
+  {
+    "url": "/galko/manifest.efff91bf394a457f4e6399575b4e55cb.json"
   },
   {
     "revision": "53700dbefc91b7b4b0205cf207400e15",
