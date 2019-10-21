@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1ce7c92b3122e63cb52f2d29d4500b80",
+    "revision": "18becbcbc81d1fd829ca57912478bc4e",
     "url": "/galko/404.html"
   },
   {
@@ -101,7 +101,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/galko/index.d.ts"
   },
   {
-    "revision": "29703517e5ae31eb61b70adfdf38fe7b",
+    "revision": "8e29554b905e1aed247f3f4af640bf65",
     "url": "/galko/index.html"
   },
   {
@@ -141,7 +141,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/galko/interfaces\\Turn.d.ts"
   },
   {
-    "url": "/galko/manifest.efff91bf394a457f4e6399575b4e55cb.json"
+    "url": "/galko/manifest.0252ddadf5632380f6964839bae21c87.json"
   },
   {
     "revision": "53700dbefc91b7b4b0205cf207400e15",

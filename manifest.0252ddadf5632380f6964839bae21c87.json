@@ -42,5 +42,6 @@
   "display": "standalone",
   "start_url": ".",
   "description": "Galko is Matching pairs card game.",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "theme_color": "#fdd87f"
 }
