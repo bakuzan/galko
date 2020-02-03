@@ -7,14 +7,8 @@ import { MediaSize } from './enums/MediaSize';
 import { GameResult, GameResultView } from './interfaces/GameResult';
 import GameTimer from './utils/GameTimer';
 import { mediaOn } from './utils/mediaOn';
+import orderGameHistory, { ResultField } from './utils/orderGameHistory';
 import { dataStore } from './utils/storage';
-
-type ResultField =
-  | 'timeElapsed'
-  | 'datetime'
-  | 'pairs'
-  | 'longestStreak'
-  | 'matchAttemptsRatio';
 
 @customElement('glk-scores')
 class Scores extends LitElement {
@@ -126,11 +120,11 @@ class Scores extends LitElement {
   }
 
   public render() {
-    const items = this.history.sort((a, b) => {
-      const bv = b[this.sortField];
-      const av = a[this.sortField];
-      return this.sortOrder === 1 ? av - bv : bv - av;
-    });
+    const items = orderGameHistory(
+      this.history,
+      this.sortField,
+      this.sortOrder
+    );
 
     return html`
       <section class="history">
