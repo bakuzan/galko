@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/galko/404.html"
   },
   {
-    "revision": "0f01391f44bf6f5fcee7",
+    "revision": "6d7f0a049152fdb47cb1",
     "url": "/galko/bundle.js"
   },
   {
@@ -198,6 +198,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "440eb3e80b7c9f6c05bf7b437b9d0df6",
     "url": "/galko/utils\\objToString.d.ts"
+  },
+  {
+    "revision": "0b7d68de3d39c812cd1bc482729816a6",
+    "url": "/galko/utils\\orderGameHistory.d.ts"
   },
   {
     "revision": "ba253b033e78912b26ab4b3c857afd94",
