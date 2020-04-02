@@ -52,7 +52,7 @@ module.exports = (env) => {
           use: {
             loader: 'html-loader',
             options: {
-              attrs: false,
+              attributes: false,
               minimize: !isDev
             }
           }
