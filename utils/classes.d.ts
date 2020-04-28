@@ -1,1 +1,1 @@
-export default function classes(...arr: Array<string | boolean>): string;
+export default function classes(...arr: (string | boolean)[]): string;

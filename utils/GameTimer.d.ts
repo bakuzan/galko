@@ -1,6 +1,6 @@
 declare class GameTimer {
-    readonly time: string;
-    readonly isPaused: boolean;
+    get time(): string;
+    get isPaused(): boolean;
     private interval;
     private paused;
     private gameTime;
