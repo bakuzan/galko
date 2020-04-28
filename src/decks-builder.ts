@@ -88,7 +88,7 @@ class DecksBuilder extends LitElement {
   private noDeck: boolean = false;
 
   @property({ type: Array })
-  private characters: Array<Character & { seriesName: string }> = [];
+  private characters: (Character & { seriesName: string })[] = [];
 
   @property({ type: String })
   private deckId: string = '';
@@ -234,7 +234,7 @@ class DecksBuilder extends LitElement {
               filteredCharacters,
               (c: Character) => c.id,
               (c: Character) => {
-                const fieldSlug = slugify(c.name);
+                const fieldSlug = slugify(`${c.name}_${c.id}`);
                 const images = [c.image, ...c.images.map((x) => x.url)];
                 const isSelected = this.deckCharacterIds.includes(c.id);
 
