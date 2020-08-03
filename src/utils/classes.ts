@@ -1,3 +1,3 @@
-export default function classes(...arr: Array<string | boolean>) {
+export default function classes(...arr: (string | boolean)[]) {
   return arr.filter((x) => !!x).join(' ');
 }
