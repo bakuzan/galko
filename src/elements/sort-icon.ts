@@ -24,8 +24,6 @@ class SortIcon extends LitElement {
 
     const icon = this.direction === 1 ? '\u25B2\uFE0E' : '\u25BC\uFE0E';
 
-    return html`
-      <span class="icon">${icon}</span>
-    `;
+    return html` <span class="icon">${icon}</span> `;
   }
 }

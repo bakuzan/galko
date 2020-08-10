@@ -8,45 +8,30 @@ const router = new Router(
   [
     {
       name: 'home',
-      render: () =>
-        html`
-          <glk-home></glk-home>
-        `,
+      render: () => html` <glk-home></glk-home> `,
       url: baseUrl
     },
     {
       name: 'options',
-      render: () =>
-        html`
-          <glk-options></glk-options>
-        `,
+      render: () => html` <glk-options></glk-options> `,
       title: 'Options',
       url: '/options'
     },
     {
       name: 'scores',
-      render: () =>
-        html`
-          <glk-scores></glk-scores>
-        `,
+      render: () => html` <glk-scores></glk-scores> `,
       title: 'Scores',
       url: '/scores'
     },
     {
       name: 'decks',
-      render: () =>
-        html`
-          <glk-decks></glk-decks>
-        `,
+      render: () => html` <glk-decks></glk-decks> `,
       title: 'Decks',
       url: '/decks'
     },
     {
       name: 'decks-builder',
-      render: () =>
-        html`
-          <glk-decks-builder></glk-decks-builder>
-        `,
+      render: () => html` <glk-decks-builder></glk-decks-builder> `,
       title: 'Deck Builder',
       url: '/decks-builder'
     }

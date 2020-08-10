@@ -179,12 +179,7 @@ class Home extends LitElement {
         ${hasSummary
           ? html`
               <div class="summary">
-                ${this.gameSummary.map(
-                  (x) =>
-                    html`
-                      <div>${x}</div>
-                    `
-                )}
+                ${this.gameSummary.map((x) => html` <div>${x}</div> `)}
               </div>
             `
           : ''}
