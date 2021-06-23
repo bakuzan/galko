@@ -5,7 +5,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = (env) => {
-  const isDev = env.MODE === 'development';
+  const isDev = env.development;
   const publicPath = isDev ? '/' : '/galko/';
   const productionPlugins = isDev
     ? []
@@ -33,9 +33,9 @@ module.exports = (env) => {
       ];
 
   return {
-    mode: env.MODE,
+    mode: isDev ? 'development' : 'production',
     entry: './src/index.ts',
-    devtool: isDev ? 'inline-source-map' : 'none',
+    devtool: isDev ? 'inline-source-map' : undefined,
     devServer: {
       contentBase: './dist',
       historyApiFallback: true

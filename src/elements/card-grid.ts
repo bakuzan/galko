@@ -15,7 +15,7 @@ class CardGrid extends LitElement {
       css`
         :host {
           display: grid;
-          grid-template-columns: repeat(auto-fit, 103px);
+          grid-template-columns: repeat(auto-fit, var(--card-width));
           grid-auto-rows: 1fr;
           grid-gap: 16px;
           padding: 16px;

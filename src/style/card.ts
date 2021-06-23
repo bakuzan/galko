@@ -1,12 +1,50 @@
 import { css } from 'lit-element';
 
 export default css`
+
+  @media (min-width: 768px) {
+    :host,
+    .card,
+    .card__axis,
+    .card__front,
+    .card__back,
+    .card__image {
+      --card-width: 103px;
+      --card-height: 160px;
+    }
+  }
+
+  @media (min-width: 479px) and (max-width:767px) {
+    :host,
+    .card,
+    .card__axis,
+    .card__front,
+    .card__back,
+    .card__image {    
+      --card-width: 83px;
+      --card-height: 130px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    :host,
+    .card,
+    .card__axis,
+    .card__front,
+    .card__back,
+    .card__image {    
+      --card-width: 64px;
+      --card-height: 100px;
+    }
+  }
+
   /* Shared sizing */
   :host,
   .card,
   .card__axis,
   .card__front,
-  .card__back {
+  .card__back,
+  .card__image {
     width: var(--card-width);
     height: var(--card-height);
   }

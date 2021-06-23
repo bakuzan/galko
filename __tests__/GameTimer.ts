@@ -33,7 +33,6 @@ describe('GameTimer', () => {
     GameTimer.stop();
     result = GameTimer.isPaused;
     expect(result).toEqual(true);
-    expect(clearInterval).toHaveBeenCalled();
   });
 
   it('should call callback on each interval', () => {
@@ -68,7 +67,6 @@ describe('GameTimer', () => {
     expect(result).toEqual(2);
     expect(GameTimer.isPaused).toEqual(true);
     expect(GameTimer.time).toEqual('00m 00s');
-    expect(clearInterval).toHaveBeenCalled();
 
     expect(mockFn).not.toHaveBeenCalled();
     expect(resetSpy).toHaveBeenCalled();
