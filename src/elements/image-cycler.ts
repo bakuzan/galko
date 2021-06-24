@@ -4,40 +4,13 @@ import { css, customElement, html, LitElement, property } from 'lit-element';
 class ImageCycler extends LitElement {
   static get styles() {
     return css`
-      @media (min-width: 768px) {
-        :host,
-        .image,
-        .image__image {
-          --card-width: 103px;
-          --card-height: 160px;
-        }
-      }
-    
-      @media (min-width: 479px) and (max-width:767px) {
-        :host,
-        .image,
-        .image__image {
-          --card-width: 103px;
-          --card-height: 160px;
-        }
-      }
-    
-      @media (max-width: 479px) {
-        :host,
-        .image,
-        .image__image {
-          --card-width: 103px;
-          --card-height: 160px;
-        }
-      }
-    
       /* Shared sizing */
       :host,
       .image,
       .image__image {
         width: var(--card-width);
         height: var(--card-height);
-      }    
+      }
     `;
   }
 

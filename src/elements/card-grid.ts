@@ -35,6 +35,10 @@ class CardGrid extends LitElement {
               justify-content: flex-start;
               grid-gap: 6px;
               padding: 4px;
+
+              min-width: 250px;
+              max-width: 98%;
+              margin-top: 0px;
             }
           `
         )}

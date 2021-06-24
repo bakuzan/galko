@@ -3,18 +3,22 @@ import { mediaOn } from '@/utils/mediaOn';
 import { css } from 'lit-element';
 
 const responsive = [
-  { size: MediaSize.LG,  },
-  { size: MediaSize.MD, },
-  { size: MediaSize.SM,  },
-  { size: MediaSize.XS,  }
-].map(({ size }) =>
+  { size: MediaSize.LG, num: 1 },
+  { size: MediaSize.MD, num: 1 },
+  { size: MediaSize.SM, num: 1.5 },
+  { size: MediaSize.XS, num: 2 },
+  { size: MediaSize.XXS, num: 2 }
+].map(({ size, num }) =>
   mediaOn(
     size,
     css`
       .grid--standard {
-        grid-template-columns: repeat(auto-fill, calc(var(--card-width) + 30px));
+        grid-template-columns: repeat(
+          auto-fill,
+          calc(var(--card-width) * ${num})
+        );
         grid-auto-rows: 1fr;
-        gap: 10px;
+        gap: calc(25px / ${num});
       }
     `
   )

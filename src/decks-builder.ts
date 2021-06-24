@@ -17,6 +17,8 @@ import controlStyle from './style/control';
 import floatLabel from './style/floatLabel';
 import gridStyle from './style/grid';
 import { dataStore } from './utils/storage';
+import { mediaOn } from './utils/mediaOn';
+import { MediaSize } from './enums/MediaSize';
 
 type DeckPageField = 'deckName' | 'search';
 
@@ -44,6 +46,18 @@ class DecksBuilder extends LitElement {
           align-items: center;
           margin: 20px 0;
         }
+
+        ${mediaOn(
+          MediaSize.XXS,
+          css`
+            .deck-operations {
+              flex-direction: column;
+            }
+            .deck-operations > * {
+              width: 100%;
+            }
+          `
+        )}
 
         .button-block {
           display: flex;
@@ -192,9 +206,7 @@ class DecksBuilder extends LitElement {
           </div>
         </div>
 
-        <div class="feedback">
-          ${this.feedback}
-        </div>
+        <div class="feedback">${this.feedback}</div>
 
         <div class="view">
           <div class="glk-control has-float-label">
