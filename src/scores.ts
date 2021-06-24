@@ -1,30 +1,34 @@
+import { separateAndCapitalise } from 'ayaka/capitalise';
 import formatDateTimeForDisplay from 'ayaka/formatDateTimeForDisplay';
 import padNumber from 'ayaka/padNumber';
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import './elements/sort-icon';
 
-import { MediaSize } from './enums/MediaSize';
 import { GameResult, GameResultView } from './interfaces/GameResult';
 import GameTimer from './utils/GameTimer';
-import { mediaOn } from './utils/mediaOn';
-import orderGameHistory, { ResultField } from './utils/orderGameHistory';
+
+import orderGameHistory, {
+  ResultField,
+  resultFields
+} from './utils/orderGameHistory';
 import { dataStore } from './utils/storage';
+import controlStyle from './style/control';
+import floatLabel from './style/floatLabel';
 
 @customElement('glk-scores')
 class Scores extends LitElement {
   static get styles() {
     return [
+      floatLabel,
+      controlStyle,
       css`
         :host {
           margin: 10px;
         }
 
         .list {
-          display: grid;
-          grid-auto-columns: 1fr;
-
-          padding: 0;
-          list-style-type: none;
+          width: 100%;
+          max-width: 750px;
         }
 
         .history {
@@ -39,23 +43,15 @@ class Scores extends LitElement {
           font-size: 1.25rem;
           margin: 15px 0;
         }
-        .history__item {
-          display: grid;
-          grid-template-columns: 50px minmax(180px, 0.25fr) 75px 90px 80px 90px;
-          padding: 5px 0;
+
+        .history__controls {
+          display: none;
         }
+
         .history__item--no-items {
           display: flex;
         }
-        .history__item:not(.history__item--header):not(.history__item--no-items):hover {
-          background-color: var(--secondary-colour);
-        }
 
-        .column-header {
-          display: flex;
-
-          align-items: center;
-        }
         .column-header__button {
           display: flex;
           justify-content: space-between;
@@ -76,25 +72,72 @@ class Scores extends LitElement {
         }
 
         /* Repsonsive */
-        ${mediaOn(
-          MediaSize.XS,
-          css`
-            .history__item {
-              grid-template-columns: 50px 160px 75px 80px 80px 90px;
-            }
-          `
-        )}
-        ${mediaOn(
-          MediaSize.XXS,
-          css`
-            .history__header {
-              flex-direction: column;
-            }
-            .history__item {
-              grid-template-columns: 50px 120px 60px 80px 60px 90px;
-            }
-          `
-        )}
+        td,
+        th {
+          vertical-align: top;
+        }
+
+        td {
+          padding: 5px;
+        }
+
+        @media only screen and (max-width: 760px),
+          (min-device-width: 768px) and (max-device-width: 1024px) {
+          /* Force table to not be like tables anymore */
+          table,
+          thead,
+          tbody,
+          th,
+          td,
+          tr {
+            display: block;
+          }
+
+          /* Hide table headers (but not display: none;, for accessibility) */
+          thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+          }
+
+          tr {
+            border: 1px solid var(--table-border-colour);
+          }
+
+          td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid var(--table-cell-border-colour);
+            position: relative;
+            padding-left: 40%;
+          }
+
+          td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            // top: 6px;
+            left: 6px;
+            width: 35%;
+            padding-right: 10px;
+            white-space: nowrap;
+            text-align: right;
+          }
+
+          /* Label the data */
+          td:before {
+            content: attr(column-title);
+          }
+
+          td[column-title='Rank'] {
+            background-color: var(--secondary-colour);
+            color: var(--secondary-contrast);
+          }
+
+          .history__controls {
+            display: block;
+          }
+        }
       `
     ];
   }
@@ -120,6 +163,7 @@ class Scores extends LitElement {
   }
 
   public render() {
+    const sortOptions = Array.from(resultFields);
     const items = orderGameHistory(
       this.history,
       this.sortField,
@@ -130,101 +174,130 @@ class Scores extends LitElement {
       <section class="history">
         <header class="history__header">
           <h2 class="history__title">Game history</h2>
+          <p>${items.length} games</p>
         </header>
-        <ul class="list">
-          ${this.history.length === 0
-            ? html`
-                <li class="history__item history__item--no-items">
-                  No history found.
-                </li>
+        <div class="history__controls">
+          <div class="glk-control has-float-label has-float-label--select">
+            <label for="cardBack">Sort on field</label>
+            <select
+              id="sortField"
+              name="sortField"
+              class="glk-control__input"
+              @change=${(e: Event) => {
+                const t = e.currentTarget as HTMLSelectElement;
+                this.handleSort(
+                  resultFields.find((x) => x === t.value) ?? this.sortField // Ham-handed way to force it
+                );
+              }}
+            >
+              ${sortOptions.map(
+                (op) => html`
+                  <option value=${op} ?selected=${op === this.sortField}>
+                    ${separateAndCapitalise(op)}
+                  </option>
+                `
+              )}
+            </select>
+          </div>
+        </div>
+        <table class="list">
+          <thead>
+            <tr class="history__item history__item--header">
+              <th class="column-header">#</th>
+              <th class="column-header">
+                <button
+                  type="button"
+                  class="column-header__button"
+                  @click=${() => this.handleSort('datetime')}
+                >
+                  Date
+                  <glk-sort-icon
+                    ?show=${this.sortField === 'datetime'}
+                    .direction=${this.sortOrder}
+                  ></glk-sort-icon>
+                </button>
+              </th>
+              <th class="column-header">
+                <button
+                  type="button"
+                  class="column-header__button"
+                  @click=${() => this.handleSort('pairs')}
+                >
+                  Pairs
+                  <glk-sort-icon
+                    ?show=${this.sortField === 'pairs'}
+                    .direction=${this.sortOrder}
+                  ></glk-sort-icon>
+                </button>
+              </th>
+              <th class="column-header">
+                <button
+                  type="button"
+                  class="column-header__button"
+                  @click=${() => this.handleSort('timeElapsed')}
+                >
+                  Time
+                  <glk-sort-icon
+                    ?show=${this.sortField === 'timeElapsed'}
+                    .direction=${this.sortOrder}
+                  ></glk-sort-icon>
+                </button>
+              </th>
+              <th class="column-header">
+                <button
+                  type="button"
+                  class="column-header__button"
+                  @click=${() => this.handleSort('longestStreak')}
+                >
+                  Streak
+                  <glk-sort-icon
+                    ?show=${this.sortField === 'longestStreak'}
+                    .direction=${this.sortOrder}
+                  ></glk-sort-icon>
+                </button>
+              </th>
+              <th class="column-header">
+                <button
+                  type="button"
+                  class="column-header__button"
+                  @click=${() => this.handleSort('matchAttemptsRatio')}
+                >
+                  Match/Attempts Ratio
+                  <glk-sort-icon
+                    ?show=${this.sortField === 'matchAttemptsRatio'}
+                    .direction=${this.sortOrder}
+                  ></glk-sort-icon>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(
+              (item, i) => html`
+                <tr class="history__item">
+                  <td column-title="Rank">${this.itemNumber(i)}</td>
+                  <td column-title="Date">${item.date}</td>
+                  <td column-title="Pairs" class="align-right">
+                    ${item.pairs}
+                  </td>
+                  <td column-title="Time" class="align-right">
+                    ${item.timeElapsedDisplay}
+                  </td>
+                  <td column-title="Streak" class="align-right">
+                    ${item.longestStreak}
+                  </td>
+                  <td
+                    column-title="M/A"
+                    title="Match / Attempts Ratio"
+                    class="align-right"
+                  >
+                    ${item.matchAttemptsRatio.toFixed(2)}
+                  </td>
+                </tr>
               `
-            : html`
-                <li class="history__item history__item--header">
-                  <div class="column-header">#</div>
-                  <div class="column-header">
-                    <button
-                      type="button"
-                      class="column-header__button"
-                      @click=${() => this.handleSort('datetime')}
-                    >
-                      Date
-                      <glk-sort-icon
-                        ?show=${this.sortField === 'datetime'}
-                        .direction=${this.sortOrder}
-                      ></glk-sort-icon>
-                    </button>
-                  </div>
-                  <div class="column-header">
-                    <button
-                      type="button"
-                      class="column-header__button"
-                      @click=${() => this.handleSort('pairs')}
-                    >
-                      Pairs
-                      <glk-sort-icon
-                        ?show=${this.sortField === 'pairs'}
-                        .direction=${this.sortOrder}
-                      ></glk-sort-icon>
-                    </button>
-                  </div>
-                  <div class="column-header">
-                    <button
-                      type="button"
-                      class="column-header__button"
-                      @click=${() => this.handleSort('timeElapsed')}
-                    >
-                      Time
-                      <glk-sort-icon
-                        ?show=${this.sortField === 'timeElapsed'}
-                        .direction=${this.sortOrder}
-                      ></glk-sort-icon>
-                    </button>
-                  </div>
-                  <div class="column-header">
-                    <button
-                      type="button"
-                      class="column-header__button"
-                      @click=${() => this.handleSort('longestStreak')}
-                    >
-                      Streak
-                      <glk-sort-icon
-                        ?show=${this.sortField === 'longestStreak'}
-                        .direction=${this.sortOrder}
-                      ></glk-sort-icon>
-                    </button>
-                  </div>
-                  <div class="column-header">
-                    <button
-                      type="button"
-                      class="column-header__button"
-                      @click=${() => this.handleSort('matchAttemptsRatio')}
-                    >
-                      Match/Attempts Ratio
-                      <glk-sort-icon
-                        ?show=${this.sortField === 'matchAttemptsRatio'}
-                        .direction=${this.sortOrder}
-                      ></glk-sort-icon>
-                    </button>
-                  </div>
-                </li>
-              `}
-          ${items.map(
-            (item, i) => html`
-              <li class="history__item">
-                <div>${this.itemNumber(i)}</div>
-                <div>
-                  ${item.date}
-                </div>
-                <div class="align-right">${item.pairs}</div>
-                <div class="align-right">${item.timeElapsedDisplay}</div>
-                <div class="align-right">${item.longestStreak}</div>
-                <div class="align-right">
-                  ${item.matchAttemptsRatio.toFixed(2)}
-                </div>
-              </li>
-            `
-          )}
-        </ul>
+            )}
+          </tbody>
+        </table>
       </section>
     `;
   }

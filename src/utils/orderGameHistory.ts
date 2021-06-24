@@ -3,12 +3,15 @@ import orderBy from 'ayaka/orderBy';
 
 import { GameResultView } from '@/interfaces/GameResult';
 
-export type ResultField =
-  | 'timeElapsed'
-  | 'datetime'
-  | 'pairs'
-  | 'longestStreak'
-  | 'matchAttemptsRatio';
+export const resultFields = [
+  'timeElapsed',
+  'datetime',
+  'pairs',
+  'longestStreak',
+  'matchAttemptsRatio'
+] as const;
+
+export type ResultField = typeof resultFields[number];
 
 type SortOrder = 'asc' | 'desc';
 
