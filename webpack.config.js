@@ -37,7 +37,9 @@ module.exports = (env) => {
     entry: './src/index.ts',
     devtool: isDev ? 'inline-source-map' : undefined,
     devServer: {
-      contentBase: './dist',
+      static: {
+        contentBase: './dist'
+      },
       historyApiFallback: true
     },
     module: {
