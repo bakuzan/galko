@@ -61,5 +61,5 @@ export default function orderGameHistory(
   order: number
 ) {
   const args = orders.get(key) as ResultOrder;
-  return orderBy(history, args.props, args.orders(order));
+  return orderBy(history, args.props, args.orders(order)) as GameResultView[];
 }

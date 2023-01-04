@@ -14,7 +14,6 @@ module.exports = {
   },
   plugins: [
     'eslint-plugin-jsdoc',
-    'eslint-plugin-prefer-arrow',
     'eslint-plugin-react',
     '@typescript-eslint',
     '@typescript-eslint/tslint'
@@ -179,7 +178,6 @@ module.exports = {
         allowSingleLineBlocks: true
       }
     ],
-    'prefer-arrow/prefer-arrow-functions': 'error',
     'prefer-const': 'error',
     'quote-props': 'off',
     quotes: 'off',

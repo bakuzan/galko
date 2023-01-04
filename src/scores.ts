@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { separateAndCapitalise } from 'ayaka/capitalise';
 import formatDateTimeForDisplay from 'ayaka/formatDateTimeForDisplay';
 import padNumber from 'ayaka/padNumber';
@@ -81,8 +82,7 @@ class Scores extends LitElement {
           padding: 5px;
         }
 
-        @media only screen and (max-width: 760px),
-          (min-device-width: 768px) and (max-device-width: 1024px) {
+        @media only screen and (max-width: 600px) {
           /* Force table to not be like tables anymore */
           table,
           thead,
@@ -146,13 +146,13 @@ class Scores extends LitElement {
   private sortField: ResultField = 'matchAttemptsRatio';
 
   @property({ type: Array })
-  private sortOrder: number = -1;
+  private sortOrder = -1;
 
   @property({ type: Array })
   private history: GameResultView[] = [];
 
   public firstUpdated() {
-    const scores = dataStore.getKey('history') as GameResult[];
+    const scores = dataStore.getKey('history') ;
 
     this.history = scores.map((x) => ({
       ...x,
