@@ -54,7 +54,6 @@ module.exports = (env) => {
           use: {
             loader: 'html-loader',
             options: {
-              attributes: false,
               minimize: !isDev
             }
           }
