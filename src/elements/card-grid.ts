@@ -69,6 +69,7 @@ class CardGrid extends LitElement {
 
   public render() {
     const hasPair = this.selected.length === 2;
+    const pairCount = this.cards.length / 2;
 
     return html`
       ${hasPair
@@ -87,9 +88,16 @@ class CardGrid extends LitElement {
                 left: 0;
                 font-size: 8.5rem;
               }
+              :host {
+                grid-template-columns: repeat(pairCount, var(--card-width));
+              }
             </style>
           `
-        : ''}
+        : html`<style>
+            :host {
+              grid-template-columns: repeat(pairCount, var(--card-width));
+            }
+          </style>`}
       ${this.cards.map((card: Card) => {
         const isHidden = this.removed.includes(card.id);
         const isFlipped = this.selected.includes(card.id);
