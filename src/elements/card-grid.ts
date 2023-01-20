@@ -7,6 +7,11 @@ import baseAnimationStyle from '@/style/cardGrid';
 import getCardBackground from '@/utils/getCardBackground';
 import { mediaOn } from '@/utils/mediaOn';
 import { optsStore } from '@/utils/storage';
+import {
+  getCardWidth,
+  getElementWidth,
+  getHighestEvenColumns
+} from '@/utils/cardGrid';
 
 @customElement('glk-card-grid')
 class CardGrid extends LitElement {
@@ -62,16 +67,53 @@ class CardGrid extends LitElement {
   @property({ type: String })
   private cardBack = '';
 
+  @property({ type: Number })
+  private columns = 0;
+
   public firstUpdated() {
     const opts = optsStore.get();
     this.cardBack = getCardBackground(opts.cardBack);
   }
 
+  protected updated(
+    _changedProperties: Map<string | number | symbol, unknown>
+  ) {
+    if (_changedProperties.has('cards')) {
+      this.updateGridColumns(this);
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', () => this.updateGridColumns(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', () => this.updateGridColumns(this));
+    super.disconnectedCallback();
+  }
+
+  public updateGridColumns<
+    T extends Pick<HTMLElement, 'getBoundingClientRect'>
+  >(element: T) {
+    const gridWidth = (getElementWidth(element) - 32) * 0.95;
+    const cardCount = this.cards.length;
+    const maxColumns = Math.floor(gridWidth / getCardWidth());
+    this.columns = getHighestEvenColumns(cardCount, maxColumns);
+  }
+
   public render() {
     const hasPair = this.selected.length === 2;
-    const pairCount = this.cards.length / 2;
 
     return html`
+      <style>
+        :host {
+          grid-template-columns: repeat(
+            ${this.columns},
+            var(--card-width)
+          ) !important;
+        }
+      </style>
       ${hasPair
         ? html`
             <style>
@@ -88,16 +130,9 @@ class CardGrid extends LitElement {
                 left: 0;
                 font-size: 8.5rem;
               }
-              :host {
-                grid-template-columns: repeat(pairCount, var(--card-width));
-              }
             </style>
           `
-        : html`<style>
-            :host {
-              grid-template-columns: repeat(pairCount, var(--card-width));
-            }
-          </style>`}
+        : ''}
       ${this.cards.map((card: Card) => {
         const isHidden = this.removed.includes(card.id);
         const isFlipped = this.selected.includes(card.id);
