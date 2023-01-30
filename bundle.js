@@ -709,7 +709,6 @@
 
         ${ue(le.XXS,te`
             :host {
-              justify-content: flex-start;
               grid-gap: 6px;
               padding: 4px;
 
