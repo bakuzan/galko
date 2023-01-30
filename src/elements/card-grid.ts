@@ -37,7 +37,6 @@ class CardGrid extends LitElement {
           MediaSize.XXS,
           css`
             :host {
-              justify-content: flex-start;
               grid-gap: 6px;
               padding: 4px;
 
