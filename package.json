@@ -58,7 +58,7 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^5.2.1",
     "webpack-pwa-manifest": "^4.3.0",
-    "workbox-webpack-plugin": "^7.3.0"
+    "workbox-webpack-plugin": "^7.4.1"
   },
   "dependencies": {
     "ayaka": "file:../ayaka/build",
